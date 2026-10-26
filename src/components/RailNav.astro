@@ -23,7 +23,11 @@ import MenuIcon from "./MenuIcon.astro";
     <p class="rotate-180 text-base font-bold [writing-mode:vertical-rl]">
       LAV DESIGN
     </p>
-    <p class="rotate-180 font-mono text-xs text-ink-muted [writing-mode:vertical-rl]">
+    <!-- On the Home, chapters.js swaps this for "CH.n / 4" while a chapter is in view. -->
+    <p
+      class="rotate-180 font-mono text-xs text-ink-muted [writing-mode:vertical-rl]"
+      data-rail-status
+    >
       © 2026
     </p>
   </div>

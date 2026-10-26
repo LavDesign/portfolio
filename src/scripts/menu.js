@@ -2,6 +2,7 @@ const SCROLL_LOCK_CLASS = "overflow-hidden";
 
 /**
  * Wires the site menu <dialog> to every [data-menu-open] trigger.
+ * Dispatches "menu:open" and "menu:close" on the document so other scripts can react.
  * Returns a cleanup function that removes the listeners.
  */
 export function initMenu(doc = document) {
@@ -24,6 +25,7 @@ export function initMenu(doc = document) {
     dialog.showModal();
     setExpanded(true);
     doc.documentElement.classList.add(SCROLL_LOCK_CLASS);
+    doc.dispatchEvent(new CustomEvent("menu:open"));
     dialog.querySelector("[data-menu-link]")?.focus();
   };
 
@@ -34,6 +36,7 @@ export function initMenu(doc = document) {
   const onClose = () => {
     setExpanded(false);
     doc.documentElement.classList.remove(SCROLL_LOCK_CLASS);
+    doc.dispatchEvent(new CustomEvent("menu:close"));
     opener?.focus();
     opener = null;
   };

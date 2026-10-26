@@ -27,6 +27,9 @@
     Monaco, Consolas, "Liberation Mono", monospace;
 }
 
+/* Active only on the Home from lg with motion allowed; set by src/scripts/chapters.js. */
+@custom-variant horizontal (&:where(.chapters-horizontal, .chapters-horizontal *));
+
 @layer base {
   html {
     color-scheme: dark;

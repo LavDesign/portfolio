@@ -84,4 +84,18 @@ describe("menu", () => {
     expect(topbar.getAttribute("aria-expanded")).toBe("false");
     expect(document.activeElement).toBe(topbar);
   });
+
+  it("dispatches menu:open and menu:close on the document", () => {
+    const events = [];
+    const record = (event) => events.push(event.type);
+    document.addEventListener("menu:open", record);
+    document.addEventListener("menu:close", record);
+
+    document.getElementById("rail").click();
+    pressEscape();
+
+    document.removeEventListener("menu:open", record);
+    document.removeEventListener("menu:close", record);
+    expect(events).toEqual(["menu:open", "menu:close"]);
+  });
 });
