@@ -1,0 +1,80 @@
+---
+import { nav, social } from "../data/site.js";
+
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+---
+
+<dialog
+  id="site-menu"
+  aria-label="Site menu"
+  class="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto border-0 bg-surface p-0 text-ink backdrop:bg-surface open:flex"
+>
+  <div class="flex min-h-full w-full flex-col">
+    <div class="flex h-16 shrink-0 items-center justify-end px-4 md:px-6 lg:h-18 lg:px-12">
+      <button
+        type="button"
+        class="-mr-2 min-h-11 px-2 font-mono text-sm tracking-[0.12em]"
+        data-menu-close
+      >
+        CLOSE
+      </button>
+    </div>
+
+    <nav aria-label="Main" class="flex-1 px-4 py-8 md:px-6 lg:px-12">
+      <ul>
+        {nav.map((item, index) => {
+          const isCurrent = item.href === currentPath;
+          return (
+            <li class="menu-item" style={`--i: ${index}`}>
+              <a
+                href={item.href}
+                data-menu-link
+                aria-current={isCurrent ? "page" : undefined}
+                class:list={[
+                  "inline-flex items-start gap-3 transition-colors duration-200 md:gap-5",
+                  isCurrent
+                    ? "text-ink"
+                    : "text-line-strong hover:text-ink focus-visible:text-ink",
+                ]}
+              >
+                <span class="pt-[0.4em] font-mono text-2xl">{item.number}</span>
+                <span class="text-[clamp(56px,11vw,168px)] leading-[0.95] font-bold tracking-[-0.05em] uppercase">
+                  {item.label}
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <ul class="flex shrink-0 flex-wrap justify-end gap-x-6 gap-y-2 px-4 pb-8 font-mono text-sm tracking-[0.12em] text-ink-muted md:px-6 lg:px-12">
+      {social.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="inline-flex min-h-11 items-center hover:text-ink"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</dialog>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    dialog[open] .menu-item {
+      animation: menu-item-in 300ms ease-out both;
+      animation-delay: calc(var(--i) * 50ms);
+    }
+  }
+
+  @keyframes menu-item-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+</style>
