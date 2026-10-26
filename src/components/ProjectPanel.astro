@@ -1,0 +1,100 @@
+---
+import { projects } from "../data/projects.js";
+import { formatIndex } from "../scripts/chapter-utils.js";
+import StatusTag from "./StatusTag.astro";
+
+// Reads the project from the data so its fields stay typed (props are untyped JS).
+const { index } = Astro.props;
+const project = projects[index];
+const total = projects.length;
+
+const number = formatIndex(index);
+const totalLabel = formatIndex(total - 1);
+const progress = ((index + 1) / total) * 100;
+const headingId = `project-${project.slug}`;
+---
+
+<!--
+  Default (mobile, reduced motion, no JS): a stacked list card.
+  `horizontal:` styles turn it into a full-width panel inside the pinned track.
+-->
+<article
+  aria-labelledby={headingId}
+  data-panel
+  class="flex flex-col gap-6 horizontal:grid horizontal:h-full horizontal:w-[calc(100vw-4.5rem)] horizontal:grid-cols-[400px_minmax(0,1fr)] horizontal:items-center horizontal:gap-12 horizontal:px-12 horizontal:py-8 xl:horizontal:grid-cols-[460px_minmax(0,1fr)] xl:horizontal:gap-16 xl:horizontal:px-18"
+>
+  <div class="flex flex-col items-start gap-3 horizontal:gap-0">
+    <p
+      aria-hidden="true"
+      class="hidden font-mono text-[13px] tracking-[0.08em] text-brand horizontal:block"
+    >
+      CH.1 — SELECTED WORK
+    </p>
+    <p
+      aria-hidden="true"
+      class="hidden text-[clamp(88px,min(11vw,17svh),160px)] leading-[0.8] font-bold tracking-[-0.06em] horizontal:mt-5 horizontal:block"
+    >
+      {number}
+    </p>
+
+    <h3
+      id={headingId}
+      class="text-[32px] leading-[1.05] font-bold tracking-[-0.04em] uppercase horizontal:mt-6 horizontal:text-[clamp(44px,5vw,72px)] horizontal:leading-[0.92]"
+    >
+      {project.name}
+    </h3>
+
+    <p class="order-first flex items-center gap-2 font-mono text-xs tracking-[0.08em] horizontal:order-none horizontal:mt-5">
+      <span class="horizontal:hidden">{number} ·</span>
+      <StatusTag status={project.status} label={project.statusLabel} />
+    </p>
+
+    <p class="max-w-[620px] text-[17px] leading-[27px] text-ink-muted horizontal:mt-4">
+      {project.description}
+    </p>
+
+    <ul class="flex flex-wrap gap-2 horizontal:mt-5">
+      {project.tags.map((tag) => (
+        <li class="border border-line px-2 py-1 font-mono text-xs text-ink-muted">
+          {tag}
+        </li>
+      ))}
+    </ul>
+
+    <a
+      href={project.caseUrl}
+      class="mt-2 font-semibold underline decoration-brand decoration-2 underline-offset-[6px] hover:text-brand-hover horizontal:mt-6"
+    >
+      Read the case study<span class="sr-only"> about {project.name}</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <div class="order-first horizontal:order-none">
+    <!-- TODO: replace the placeholder with the real screenshot once `project.image` exists. -->
+    <div class="relative aspect-[16/10] w-full overflow-hidden rounded-[24px_4px] border border-line bg-surface">
+      <div
+        aria-hidden="true"
+        data-parallax
+        class="absolute inset-y-0 -left-[10%] flex w-[120%] items-center justify-center font-mono text-xs tracking-[0.08em] text-ink-subtle"
+      >
+        [ 16:10 SCREENSHOT ]
+      </div>
+    </div>
+
+    <div
+      aria-hidden="true"
+      class="mt-5 hidden items-center gap-4 font-mono text-[13px] tracking-[0.08em] text-ink-muted horizontal:flex"
+    >
+      <span>
+        {number} / {totalLabel}
+      </span>
+      <span class="relative h-0.5 flex-1 bg-line">
+        <span
+          class="absolute inset-y-0 left-0 bg-brand"
+          style={`width: ${progress}%`}
+        ></span>
+      </span>
+    </div>
+  </div>
+</article>

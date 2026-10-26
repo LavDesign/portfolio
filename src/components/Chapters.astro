@@ -1,0 +1,24 @@
+---
+import { chapterCount } from "../data/home.js";
+import WorkChapter from "./WorkChapter.astro";
+---
+
+<!-- Pinned from lg with motion allowed; the track moves on x as the page scrolls. -->
+<div
+  data-chapters
+  data-chapter-total={chapterCount}
+  class="horizontal:h-svh horizontal:overflow-x-clip"
+>
+  <div
+    data-chapters-track
+    class="relative horizontal:flex horizontal:h-full horizontal:w-max"
+  >
+    <WorkChapter />
+  </div>
+</div>
+
+<script>
+  import { initChapters } from "../scripts/chapters.js";
+
+  initChapters();
+</script>
