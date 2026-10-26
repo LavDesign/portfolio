@@ -6,12 +6,16 @@ import ProjectPanel from "./ProjectPanel.astro";
 const band = Array.from({ length: 48 }, () => "Work").join(" ");
 ---
 
-<div
+<section
   id="work"
   data-chapter
+  aria-labelledby="chapter-work"
   class="horizontal:flex horizontal:h-full horizontal:flex-col"
 >
-  <h2 class="px-4 pt-16 font-mono text-[13px] tracking-[0.08em] text-brand uppercase md:px-6 lg:px-12 horizontal:sr-only">
+  <h2
+    id="chapter-work"
+    class="px-4 pt-16 font-mono text-[13px] tracking-[0.08em] text-brand uppercase md:px-6 lg:px-12 horizontal:sr-only"
+  >
     <span aria-hidden="true">Ch.1 — </span>Selected work
   </h2>
 
@@ -30,4 +34,4 @@ const band = Array.from({ length: 48 }, () => "Work").join(" ");
       </li>
     ))}
   </ol>
-</div>
+</section>

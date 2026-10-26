@@ -1,0 +1,63 @@
+---
+import { timeline, timelineClosing } from "../data/timeline.js";
+
+const lastIndex = timeline.length - 1;
+---
+
+<section
+  id="experience"
+  data-chapter
+  aria-labelledby="chapter-experience"
+  class="border-t border-line horizontal:flex horizontal:h-full horizontal:border-t-0"
+>
+  <div
+    data-panel
+    class="flex flex-col gap-10 px-4 py-16 md:px-6 lg:px-12 horizontal:h-full horizontal:w-[calc(100vw-4.5rem)] horizontal:justify-between horizontal:gap-8 horizontal:py-10 xl:horizontal:px-18"
+  >
+    <div>
+      <p
+        aria-hidden="true"
+        class="font-mono text-[13px] tracking-[0.08em] text-brand"
+      >
+        CH.2 — TWENTY YEARS
+      </p>
+      <h2
+        id="chapter-experience"
+        class="mt-6 text-[clamp(40px,min(7.5vw,13svh),112px)] leading-[0.9] font-bold tracking-[-0.045em] uppercase"
+      >
+        Twenty years across the web
+      </h2>
+    </div>
+
+    <!-- Vertical: a list with a 2px left rule. Horizontal: 7 columns under a 2px top rule. -->
+    <ol class="flex flex-col gap-8 border-l-2 border-ink pl-6 horizontal:grid horizontal:grid-cols-7 horizontal:gap-0 horizontal:divide-x horizontal:divide-line horizontal:border-t-2 horizontal:border-l-0 horizontal:pl-0">
+      {timeline.map((item, index) => (
+        <li class="horizontal:px-4 horizontal:pt-6 horizontal:first:pl-0">
+          <p
+            class:list={[
+              "text-[48px] leading-none font-bold horizontal:text-[clamp(32px,3.4vw,48px)]",
+              index === lastIndex && "text-brand",
+            ]}
+          >
+            {item.year}
+          </p>
+          <p class="mt-3 text-[15px] leading-[22px] text-ink-muted">
+            {item.label}
+          </p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="flex flex-col gap-6 border-t border-line pt-8 horizontal:flex-row horizontal:items-end horizontal:justify-between horizontal:gap-12">
+      <p class="max-w-[720px] text-[22px] leading-[30px] font-semibold">
+        {timelineClosing}
+      </p>
+      <p
+        aria-hidden="true"
+        class="hidden shrink-0 font-mono text-[13px] tracking-[0.08em] text-ink-muted horizontal:block"
+      >
+        NEXT: HOW I WORK WITH AI →
+      </p>
+    </div>
+  </div>
+</section>
