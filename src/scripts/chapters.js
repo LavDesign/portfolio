@@ -4,7 +4,8 @@ import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 
 import {
-  activeChapterIndex,
+  activeIndex,
+  chapterForPanel,
   chapterLabel,
   scrollForOffset,
 } from "./chapter-utils.js";
@@ -24,6 +25,10 @@ export function initChapters(doc = document) {
 
   const root = doc.documentElement;
   const chapters = [...track.querySelectorAll("[data-chapter]")];
+  const panels = [...track.querySelectorAll("[data-panel]")];
+  const panelCounts = chapters.map(
+    (chapter) => chapter.querySelectorAll("[data-panel]").length,
+  );
   const total = Number(section.dataset.chapterTotal);
   const railStatus = doc.querySelector("[data-rail-status]");
   const railDefault = railStatus?.textContent.trim() ?? "";
@@ -53,11 +58,16 @@ export function initChapters(doc = document) {
 
     const distance = () => track.scrollWidth - section.clientWidth;
 
+    // Offset of an element along the track, unaffected by the track's transform.
+    const trackOffset = (element) =>
+      element.getBoundingClientRect().left - track.getBoundingClientRect().left;
+
+    // The page ends with Ch.4 on screen, so at progress 1 keep its label.
     const updateRail = (self) => {
-      if (!self.isActive) return setRail(railDefault);
+      if (!self.isActive && self.progress < 1) return setRail(railDefault);
       const position = self.progress * distance() + section.clientWidth / 2;
-      const offsets = chapters.map((chapter) => chapter.offsetLeft);
-      setRail(chapterLabel(activeChapterIndex(offsets, position), total));
+      const panel = activeIndex(panels.map(trackOffset), position);
+      setRail(chapterLabel(chapterForPanel(panel, panelCounts), total));
     };
 
     const scroll = gsap.to(track, {
@@ -107,7 +117,7 @@ export function initChapters(doc = document) {
       if (visible) return;
 
       const { start, end } = scroll.scrollTrigger;
-      const offset = panelRect.left - track.getBoundingClientRect().left;
+      const offset = trackOffset(panel);
       lenis.scrollTo(
         scrollForOffset({ start, end, distance: distance(), offset }),
         { duration: 0.6 },

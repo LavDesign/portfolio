@@ -1,0 +1,106 @@
+---
+import { ai } from "../data/ai.js";
+import { formatIndex } from "../scripts/chapter-utils.js";
+
+const principles = ai.principles.map((principle, index) => ({
+  ...principle,
+  index,
+  number: formatIndex(index),
+  next: ai.principles[index + 1],
+}));
+---
+
+<section
+  id="ai"
+  data-chapter
+  aria-labelledby="chapter-ai"
+  class="border-t border-line px-4 py-16 md:px-6 lg:px-12 horizontal:flex horizontal:h-full horizontal:border-t-0 horizontal:p-0"
+>
+  {principles.map((principle) => (
+    <article
+      data-panel
+      aria-labelledby={`principle-${principle.number}`}
+      class:list={[
+        "flex flex-col horizontal:h-full horizontal:w-[calc(100vw-4.5rem)] horizontal:shrink-0 horizontal:justify-between horizontal:gap-8 horizontal:px-12 horizontal:py-10 xl:horizontal:px-18",
+        principle.index > 0 &&
+          "mt-12 border-t border-line pt-12 horizontal:mt-0 horizontal:border-t-0 horizontal:pt-10",
+      ]}
+    >
+      <div>
+        <div class="flex items-start justify-between gap-6">
+          <p
+            aria-hidden="true"
+            class:list={[
+              "font-mono text-[13px] tracking-[0.08em] text-brand",
+              principle.index > 0 && "hidden horizontal:block",
+            ]}
+          >
+            CH.3 — HOW I WORK WITH AI
+          </p>
+
+          {/* Position indicator only: not interactive, hidden from assistive tech. */}
+          <div
+            aria-hidden="true"
+            class="hidden gap-2 font-mono text-[13px] horizontal:flex"
+          >
+            {principles.map((item) => (
+              <span
+                class:list={[
+                  "flex h-8 min-w-10 items-center justify-center px-2",
+                  item.index === principle.index
+                    ? "bg-ink text-bg"
+                    : "border border-line text-ink-muted",
+                ]}
+              >
+                {item.number}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {principle.index === 0 && (
+          <h2
+            id="chapter-ai"
+            class="mt-6 max-w-[640px] text-[28px] leading-[36px] font-semibold"
+          >
+            {ai.intro}
+          </h2>
+        )}
+      </div>
+
+      <div class="mt-8 flex flex-col gap-4 horizontal:mt-0 horizontal:flex-row horizontal:items-center horizontal:gap-12">
+        <p
+          aria-hidden="true"
+          data-parallax
+          class="shrink-0 text-[72px] leading-[0.75] font-bold tracking-[-0.06em] text-line horizontal:text-[clamp(160px,min(22vw,36svh),320px)]"
+        >
+          {principle.number}
+        </p>
+        <div>
+          <h3
+            id={`principle-${principle.number}`}
+            class="text-[40px] leading-[0.95] font-bold tracking-[-0.04em] uppercase horizontal:text-[clamp(48px,min(7vw,9svh),144px)] horizontal:leading-[0.88]"
+          >
+            {principle.title}
+          </h3>
+          <p class="mt-5 max-w-[520px] text-[20px] leading-[32px] text-ink-muted">
+            {principle.text}
+          </p>
+        </div>
+      </div>
+
+      {principle.next ? (
+        <p
+          aria-hidden="true"
+          class="hidden border-t border-line pt-6 font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase horizontal:block"
+        >
+          NEXT: {formatIndex(principle.index + 1)} — {principle.next.title}
+        </p>
+      ) : (
+        <p class="mt-12 border-t border-line pt-8 text-[22px] leading-[30px] font-semibold horizontal:mt-0 horizontal:pt-6">
+          {ai.closing}
+        </p>
+      )}
+    </article>
+  ))}
+</section>

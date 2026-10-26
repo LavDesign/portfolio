@@ -9,15 +9,28 @@ export function chapterLabel(index, total) {
 }
 
 /**
- * Index of the last chapter that starts at or before `position`
+ * Index of the last item (panel) that starts at or before `position`
  * (both measured in px along the track). Returns 0 before the first one.
  */
-export function activeChapterIndex(offsets, position) {
+export function activeIndex(offsets, position) {
   let active = 0;
   offsets.forEach((offset, index) => {
     if (offset <= position) active = index;
   });
   return active;
+}
+
+/**
+ * Chapter that owns a panel, given how many panels each chapter has:
+ * with [4, 1, 3, 1], panels 0–3 -> 0, 4 -> 1, 5–7 -> 2, 8 -> 3.
+ */
+export function chapterForPanel(panelIndex, panelCounts) {
+  let end = 0;
+  for (let chapter = 0; chapter < panelCounts.length; chapter++) {
+    end += panelCounts[chapter];
+    if (panelIndex < end) return chapter;
+  }
+  return Math.max(panelCounts.length - 1, 0);
 }
 
 /**

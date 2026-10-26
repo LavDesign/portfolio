@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  activeChapterIndex,
+  activeIndex,
+  chapterForPanel,
   chapterLabel,
   formatIndex,
   scrollForOffset,
@@ -21,18 +22,38 @@ describe("chapterLabel", () => {
   });
 });
 
-describe("activeChapterIndex", () => {
+describe("activeIndex", () => {
   const offsets = [0, 4000, 6000];
 
   it("returns the first chapter before or at its start", () => {
-    expect(activeChapterIndex(offsets, -100)).toBe(0);
-    expect(activeChapterIndex(offsets, 0)).toBe(0);
+    expect(activeIndex(offsets, -100)).toBe(0);
+    expect(activeIndex(offsets, 0)).toBe(0);
   });
 
   it("returns the last chapter that has started", () => {
-    expect(activeChapterIndex(offsets, 3999)).toBe(0);
-    expect(activeChapterIndex(offsets, 4000)).toBe(1);
-    expect(activeChapterIndex(offsets, 9999)).toBe(2);
+    expect(activeIndex(offsets, 3999)).toBe(0);
+    expect(activeIndex(offsets, 4000)).toBe(1);
+    expect(activeIndex(offsets, 9999)).toBe(2);
+  });
+});
+
+describe("chapterForPanel", () => {
+  // Ch.1 has 4 project panels, Ch.2 1, Ch.3 3 (one per principle), Ch.4 1.
+  const panelCounts = [4, 1, 3, 1];
+
+  it.each([
+    [0, 0],
+    [3, 0],
+    [4, 1],
+    [5, 2],
+    [7, 2],
+    [8, 3],
+  ])("maps panel %i to chapter %i", (panel, chapter) => {
+    expect(chapterForPanel(panel, panelCounts)).toBe(chapter);
+  });
+
+  it("clamps panels past the end to the last chapter", () => {
+    expect(chapterForPanel(42, panelCounts)).toBe(3);
   });
 });
 

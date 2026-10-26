@@ -1,0 +1,65 @@
+---
+import { contact } from "../data/home.js";
+import { social } from "../data/site.js";
+import Button from "./Button.astro";
+---
+
+<section
+  id="contact"
+  data-chapter
+  aria-labelledby="chapter-contact"
+  class="border-t border-line horizontal:flex horizontal:h-full horizontal:border-t-0"
+>
+  <div
+    data-panel
+    class="flex flex-col gap-10 px-4 py-16 md:px-6 lg:px-12 horizontal:h-full horizontal:w-[calc(100vw-4.5rem)] horizontal:justify-between horizontal:gap-8 horizontal:py-10 xl:horizontal:px-18"
+  >
+    <div>
+      <p
+        aria-hidden="true"
+        class="font-mono text-[13px] tracking-[0.08em] text-brand"
+      >
+        CH.4 — CONTACT
+      </p>
+      <h2
+        id="chapter-contact"
+        class="mt-6 text-[clamp(48px,min(9vw,15svh),144px)] leading-[0.88] font-bold tracking-[-0.045em] uppercase"
+      >
+        {contact.title}
+      </h2>
+    </div>
+
+    <div class="grid divide-y divide-line border-t-2 border-ink horizontal:grid-cols-2 horizontal:divide-x horizontal:divide-y-0">
+      {contact.doors.map((door) => (
+        <div class="flex flex-col items-start gap-4 py-8 horizontal:px-10 horizontal:first:pl-0 horizontal:last:pr-0">
+          <h3 class="text-[40px] leading-[1.1] font-bold">{door.title}</h3>
+          <p class="max-w-[520px] text-[17px] leading-[27px] text-ink-muted">
+            {door.text}
+          </p>
+          <Button
+            href={door.cta.href}
+            variant={door.variant}
+            class="mt-2 w-full horizontal:w-auto"
+          >
+            {door.cta.label}
+          </Button>
+        </div>
+      ))}
+    </div>
+
+    <div class="flex flex-col gap-4 border-t border-line pt-6 horizontal:flex-row horizontal:items-center horizontal:justify-between">
+      <p class="font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase">
+        {contact.availability}
+      </p>
+      <ul class="flex flex-wrap gap-6 text-base text-ink">
+        {social.map((link) => (
+          <li>
+            <a href={link.href} class="hover:text-ink-muted">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
