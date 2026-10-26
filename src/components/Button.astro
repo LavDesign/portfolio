@@ -1,0 +1,29 @@
+---
+const {
+  href,
+  variant = "primary",
+  type = "button",
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+
+const variantClass =
+  variant === "secondary"
+    ? "border border-line-strong text-ink hover:bg-surface-raised"
+    : "bg-brand text-on-brand hover:bg-brand-hover";
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  class:list={[
+    "inline-flex h-13 items-center justify-center rounded-[12px_2px] px-7 text-base font-semibold transition-colors duration-160 ease-out",
+    variantClass,
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>
