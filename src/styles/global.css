@@ -1,5 +1,49 @@
 @import "tailwindcss";
 
 @theme {
-  /* brand tokens arrive in M2 */
+  --color-bg: #121212;
+  --color-surface: #1a1a1a;
+  --color-surface-raised: #232323;
+  --color-line: #333333;
+  --color-line-strong: #6b6b6b;
+  --color-ink: #f2f2f2;
+  --color-ink-muted: #a3a3a3;
+  --color-ink-subtle: #8c8c8c;
+  --color-brand: #dd4b39;
+  --color-brand-hover: #e5604f;
+  --color-on-brand: #121212;
+
+  /* Structure is square by default. Buttons use rounded-[12px_2px] (md/xs), screenshots lg/sm. */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+
+  --font-sans:
+    "Geist Variable", "Geist", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    "Geist Mono Variable", "Geist Mono", ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-bg text-ink antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  /* Tailwind v4 preflight resets buttons to cursor: default. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
 }

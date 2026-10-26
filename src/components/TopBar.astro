@@ -1,0 +1,19 @@
+---
+import MenuIcon from "./MenuIcon.astro";
+---
+
+<header class="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-line bg-bg px-4 md:px-6 lg:hidden">
+  <p class="text-base font-bold">LAV Design</p>
+
+  <button
+    type="button"
+    class="-mr-2 flex size-11 items-center justify-center"
+    aria-label="Open menu"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="site-menu"
+    data-menu-open
+  >
+    <MenuIcon />
+  </button>
+</header>
