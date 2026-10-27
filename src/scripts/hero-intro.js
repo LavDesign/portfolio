@@ -9,6 +9,15 @@ const PENDING_CLASS = "hero-intro-pending";
 export async function initHeroIntro(doc = document) {
   const root = doc.documentElement;
   const title = doc.querySelector("[data-hero-title]");
+  const hero = title?.closest("section");
+  let intro = null;
+
+  // Keyboard users can reach the CTAs mid-intro: finish it at once so nothing focused is invisible.
+  const reveal = () => {
+    intro?.progress(1);
+    root.classList.remove(PENDING_CLASS);
+  };
+  hero?.addEventListener("focusin", reveal, { once: true });
 
   // Wait for Geist so the lines are measured with the final font.
   await doc.fonts.ready;
@@ -26,7 +35,7 @@ export async function initHeroIntro(doc = document) {
       aria: "none",
     });
 
-    gsap
+    intro = gsap
       .timeline({ onComplete: () => split.revert() })
       .from(split.lines, {
         yPercent: 100,
@@ -36,7 +45,8 @@ export async function initHeroIntro(doc = document) {
       })
       .from(
         doc.querySelectorAll("[data-hero-fade]"),
-        { autoAlpha: 0, duration: 0.3, ease: "power1.out", stagger: 0.06 },
+        // opacity (not autoAlpha) keeps the CTAs focusable while they fade in.
+        { opacity: 0, duration: 0.3, ease: "power1.out", stagger: 0.06 },
         "-=0.2",
       );
 

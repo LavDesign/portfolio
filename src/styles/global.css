@@ -39,6 +39,7 @@
     @apply bg-bg text-ink antialiased;
   }
 
+  /* Keep transitions off outline-color (Tailwind's transition-colors includes it) so the ring appears in brand at once. */
   :focus-visible {
     outline: 2px solid var(--color-brand);
     outline-offset: 2px;
