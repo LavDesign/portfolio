@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# TODO (M7): add "Sitemap: https://<domain>/sitemap-index.xml" once the production domain is set.

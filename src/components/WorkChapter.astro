@@ -20,12 +20,12 @@ const band = Array.from({ length: 48 }, () => "Work").join(" ");
   </h2>
 
   <!-- w-0 + min-w-full: fills the chapter without widening it to the text's length. -->
+  <!-- Decorative, so it's drawn by CSS (::before) instead of being a text node. -->
   <p
     aria-hidden="true"
-    class="mt-6 w-0 min-w-full shrink-0 overflow-clip border-y border-line py-3 text-[64px] leading-none font-bold whitespace-nowrap text-line uppercase horizontal:mt-0 horizontal:border-t-0"
-  >
-    {band}
-  </p>
+    data-text={band}
+    class="mt-6 w-0 min-w-full shrink-0 overflow-clip border-y border-line py-3 text-[64px] leading-none font-bold whitespace-nowrap text-line uppercase before:content-[attr(data-text)] horizontal:mt-0 horizontal:border-t-0"
+  ></p>
 
   <ol class="grid gap-16 px-4 pt-10 pb-24 md:grid-cols-2 md:gap-x-8 md:px-6 lg:px-12 horizontal:flex horizontal:min-h-0 horizontal:flex-1 horizontal:gap-0 horizontal:p-0">
     {projects.map((_project, index) => (

@@ -3,11 +3,16 @@ import "@fontsource-variable/geist";
 import "@fontsource-variable/geist-mono";
 import "../styles/global.css";
 
+// Preloading the Latin subsets (used on every page) removes the font-swap layout
+// shift Lighthouse measured on /about. ?url resolves to the same hashed file as @font-face.
+import geistLatin from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import geistMonoLatin from "@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url";
+
 import MenuOverlay from "../components/MenuOverlay.astro";
 import RailNav from "../components/RailNav.astro";
 import TopBar from "../components/TopBar.astro";
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 ---
 
 <html lang="en">
@@ -15,6 +20,30 @@ const { title, description } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#121212" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <!-- TODO (M7): canonical link and sitemap once the production domain is set. -->
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <!-- TODO (M6b): og:image and twitter:image; switch the card to summary_large_image. -->
+    <meta name="twitter:card" content="summary" />
+
+    <link
+      rel="preload"
+      href={geistLatin}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={geistMonoLatin}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
