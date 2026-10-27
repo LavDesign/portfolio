@@ -1,5 +1,6 @@
 ---
-const { number, title } = Astro.props;
+// `wide` drops the 68ch measure for grids such as About's columns.
+const { number, title, wide = false } = Astro.props;
 ---
 
 <section class="mt-16 border-t border-line pt-10">
@@ -12,7 +13,12 @@ const { number, title } = Astro.props;
   <h2 class="mt-4 text-[40px] leading-[1.1] font-bold tracking-[-0.03em]">
     {title}
   </h2>
-  <div class="mt-6 max-w-[68ch] space-y-4 text-[17px] leading-[27px]">
+  <div
+    class:list={[
+      "mt-6 space-y-4 text-[17px] leading-[27px]",
+      !wide && "max-w-[68ch]",
+    ]}
+  >
     <slot />
   </div>
 </section>

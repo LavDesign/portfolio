@@ -1,7 +1,8 @@
 ---
 // Visible on purpose: marks copy that isn't approved yet. Don't hide it.
+const { note = "content pending" } = Astro.props;
 ---
 
 <p class="border border-dashed border-line px-4 py-3 font-mono text-[13px] tracking-[0.08em] text-ink-subtle">
-  TODO — content pending
+  TODO — {note}
 </p>

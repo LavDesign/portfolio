@@ -1,12 +1,183 @@
 ---
+import Button from "../components/Button.astro";
+import Todo from "../components/Todo.astro";
+import { contact } from "../data/home.js";
+import { social } from "../data/site.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { MESSAGE_MIN_LENGTH } from "../scripts/contact-form.js";
+
+// Without PUBLIC_FORMSPREE_ID the form runs in demo mode (see .env.example).
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID;
+const endpoint = formspreeId ? `https://formspree.io/f/${formspreeId}` : "";
+
+const field =
+  "mt-2 block w-full border border-line bg-surface px-4 text-base text-ink placeholder:text-ink-subtle aria-invalid:border-brand";
+const label = "block text-base font-semibold";
+const error = "mt-2 text-sm text-brand";
 ---
 
 <BaseLayout
   title="Contact — LAV Design"
   description="Get in touch with LAV Design."
 >
-  <h1 class="px-4 py-16 text-4xl font-bold md:px-6 lg:px-12">
-    Contact — coming soon
-  </h1>
+  <article class="px-4 py-16 md:px-6 lg:px-12 xl:px-18">
+    <header>
+      <p class="font-mono text-[13px] tracking-[0.08em] text-brand">CONTACT</p>
+      <h1 class="mt-6 text-[clamp(48px,10vw,144px)] leading-[0.88] font-bold tracking-[-0.05em] uppercase">
+        {contact.title}
+      </h1>
+    </header>
+
+    <div class="mt-16 grid gap-16 border-t border-line pt-12 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <!-- Native validation without JS; contact-form.js replaces it with inline errors. -->
+      <form
+        data-contact-form
+        data-endpoint={endpoint}
+        action={endpoint || undefined}
+        method="post"
+        class="relative flex max-w-[640px] flex-col gap-8"
+      >
+        <div>
+          <label for="contact-name" class={label}>
+            Name
+          </label>
+          <input
+            id="contact-name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+            aria-describedby="contact-name-error"
+            class:list={[field, "h-12"]}
+          />
+          <p
+            id="contact-name-error"
+            data-error-for="name"
+            class={error}
+            hidden
+          ></p>
+        </div>
+
+        <div>
+          <label for="contact-email" class={label}>
+            Email
+          </label>
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            aria-describedby="contact-email-error"
+            class:list={[field, "h-12"]}
+          />
+          <p
+            id="contact-email-error"
+            data-error-for="email"
+            class={error}
+            hidden
+          ></p>
+        </div>
+
+        <fieldset aria-describedby="contact-type-error">
+          <legend class={label}>What's this about?</legend>
+          <div class="mt-3 flex flex-wrap gap-x-8 gap-y-3">
+            <label class="flex min-h-11 items-center gap-3">
+              <input
+                type="radio"
+                name="type"
+                value="hire"
+                required
+                class="size-5 accent-brand"
+              />
+              Hiring
+            </label>
+            <label class="flex min-h-11 items-center gap-3">
+              <input
+                type="radio"
+                name="type"
+                value="project"
+                class="size-5 accent-brand"
+              />
+              A project
+            </label>
+          </div>
+          <p
+            id="contact-type-error"
+            data-error-for="type"
+            class={error}
+            hidden
+          ></p>
+        </fieldset>
+
+        <div>
+          <label for="contact-message" class={label}>
+            Message
+          </label>
+          <textarea
+            id="contact-message"
+            name="message"
+            rows="6"
+            required
+            minlength={MESSAGE_MIN_LENGTH}
+            aria-describedby="contact-message-error"
+            class:list={[field, "py-3"]}
+          ></textarea>
+          <p
+            id="contact-message-error"
+            data-error-for="message"
+            class={error}
+            hidden
+          ></p>
+        </div>
+
+        <!-- Honeypot: off-screen and skipped by keyboard and screen readers. -->
+        <div aria-hidden="true" class="absolute -left-[9999px]">
+          <label for="contact-gotcha">Leave this field empty</label>
+          <input
+            id="contact-gotcha"
+            name="_gotcha"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="flex flex-col items-start gap-4">
+          <Button type="submit" class="w-full md:w-auto">
+            Send message
+          </Button>
+          <p
+            data-form-status
+            role="status"
+            aria-live="polite"
+            class="font-mono text-[13px] tracking-[0.08em] text-ink-muted empty:hidden"
+          ></p>
+        </div>
+      </form>
+
+      <aside aria-label="Other ways to reach me" class="flex flex-col gap-6">
+        <ul class="flex flex-col gap-3 text-base">
+          {social.map((link) => (
+            <li>
+              <a href={link.href} class="hover:text-ink-muted">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <Todo note="real links pending" />
+        <p class="font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase">
+          {contact.availability}
+        </p>
+      </aside>
+    </div>
+  </article>
 </BaseLayout>
+
+<script>
+  import { initContactForm } from "../scripts/contact-form.js";
+
+  const form = document.querySelector("[data-contact-form]");
+  if (form instanceof HTMLFormElement) initContactForm(form);
+</script>
