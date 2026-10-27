@@ -26,7 +26,8 @@ beforeEach(() => {
     <button id="rail" data-menu-open aria-expanded="false" aria-controls="site-menu">Menu</button>
     <button id="topbar" data-menu-open aria-expanded="false" aria-controls="site-menu">Menu</button>
     <dialog id="site-menu">
-      <button data-menu-close>CLOSE</button>
+      <button id="close-icon" data-menu-close aria-label="Close menu">—</button>
+      <button id="close-text" data-menu-close>CLOSE</button>
       <a href="/" data-menu-link>Home</a>
       <a href="/work" data-menu-link>Work</a>
     </dialog>
@@ -78,11 +79,21 @@ describe("menu", () => {
   it("closes with CLOSE and returns focus to the trigger that opened it", () => {
     const topbar = document.getElementById("topbar");
     topbar.click();
-    document.querySelector("[data-menu-close]").click();
+    document.getElementById("close-text").click();
 
     expect(dialog().open).toBe(false);
     expect(topbar.getAttribute("aria-expanded")).toBe("false");
     expect(document.activeElement).toBe(topbar);
+  });
+
+  it("closes with the icon button in the opener's spot", () => {
+    const rail = document.getElementById("rail");
+    rail.click();
+    document.getElementById("close-icon").click();
+
+    expect(dialog().open).toBe(false);
+    expect(rail.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(rail);
   });
 
   it("dispatches menu:open and menu:close on the document", () => {

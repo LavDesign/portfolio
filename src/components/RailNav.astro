@@ -3,9 +3,10 @@ import MenuIcon from "./MenuIcon.astro";
 ---
 
 <header class="fixed inset-y-0 left-0 z-40 hidden w-18 flex-col items-center border-r border-line bg-bg lg:flex">
+  <!-- w-full (71px) + the rail's 1px border = the 72px cell that MenuOverlay's close button covers. -->
   <button
     type="button"
-    class="flex size-18 shrink-0 items-center justify-center border-b border-line"
+    class="flex h-18 w-full shrink-0 items-center justify-center border-b border-line"
     aria-label="Open menu"
     aria-haspopup="dialog"
     aria-expanded="false"
@@ -19,10 +20,7 @@ import MenuIcon from "./MenuIcon.astro";
     PORTFOLIO — 2026
   </p>
 
-  <div class="mt-auto flex flex-col items-center gap-6 pb-8">
-    <p class="rotate-180 text-base font-bold [writing-mode:vertical-rl]">
-      LAV DESIGN
-    </p>
+  <div class="mt-auto flex flex-col items-center pb-8">
     <!-- On the Home, chapters.js swaps this for "CH.n / 4" while a chapter is in view. -->
     <p
       class="rotate-180 font-mono text-xs text-ink-muted [writing-mode:vertical-rl]"

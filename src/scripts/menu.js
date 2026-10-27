@@ -10,7 +10,7 @@ export function initMenu(doc = document) {
   if (!dialog) return () => {};
 
   const triggers = [...doc.querySelectorAll("[data-menu-open]")];
-  const closeButton = dialog.querySelector("[data-menu-close]");
+  const closeButtons = [...dialog.querySelectorAll("[data-menu-close]")];
   let opener = null;
 
   const setExpanded = (value) => {
@@ -50,13 +50,15 @@ export function initMenu(doc = document) {
   };
 
   triggers.forEach((trigger) => trigger.addEventListener("click", open));
-  closeButton?.addEventListener("click", close);
+  closeButtons.forEach((button) => button.addEventListener("click", close));
   dialog.addEventListener("keydown", onKeydown);
   dialog.addEventListener("close", onClose);
 
   return () => {
     triggers.forEach((trigger) => trigger.removeEventListener("click", open));
-    closeButton?.removeEventListener("click", close);
+    closeButtons.forEach((button) =>
+      button.removeEventListener("click", close),
+    );
     dialog.removeEventListener("keydown", onKeydown);
     dialog.removeEventListener("close", onClose);
   };
