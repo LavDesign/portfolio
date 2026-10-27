@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { PROJECT_STATUSES, projects } from "./projects.js";
+import { nextProject, PROJECT_STATUSES, projects } from "./projects.js";
 
 describe("projects", () => {
   it("has at least one project", () => {
@@ -26,5 +26,15 @@ describe("projects", () => {
   it("uses unique slugs", () => {
     const slugs = projects.map((project) => project.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
+  });
+});
+
+describe("nextProject", () => {
+  it("returns the following project", () => {
+    expect(nextProject(projects[0].slug)).toBe(projects[1]);
+  });
+
+  it("wraps from the last project back to the first", () => {
+    expect(nextProject(projects.at(-1).slug)).toBe(projects[0]);
   });
 });

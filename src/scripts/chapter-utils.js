@@ -1,6 +1,11 @@
+/** Zero-padded count for display: 4 -> "04". */
+export function formatCount(count) {
+  return String(count).padStart(2, "0");
+}
+
 /** Zero-padded index for display: 0 -> "01". */
 export function formatIndex(index) {
-  return String(index + 1).padStart(2, "0");
+  return formatCount(index + 1);
 }
 
 /** Rail label for a chapter: 0, 4 -> "CH.1 / 4". */

@@ -1,0 +1,115 @@
+---
+import { getEntry, render } from "astro:content";
+
+import Screenshot from "../../components/Screenshot.astro";
+import StatusTag from "../../components/StatusTag.astro";
+import { nextProject, projects } from "../../data/projects.js";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatIndex } from "../../scripts/chapter-utils.js";
+
+// One page per project in projects.js, which owns the order and the card data.
+export function getStaticPaths() {
+  return projects.map((project, index) => ({
+    params: { slug: project.slug },
+    props: { index },
+  }));
+}
+
+const { index } = Astro.props;
+const project = projects[index];
+const next = nextProject(project.slug);
+
+const entry = await getEntry("work", project.slug);
+if (!entry) {
+  throw new Error(`Missing case study: src/content/work/${project.slug}.mdx`);
+}
+const { Content } = await render(entry);
+const { role, year, links } = entry.data;
+---
+
+<BaseLayout
+  title={`${project.name} — LAV Design`}
+  description={project.description}
+>
+  <article class="px-4 py-16 md:px-6 lg:px-12 xl:px-18">
+    <header>
+      <p class="font-mono text-[13px] tracking-[0.08em] text-brand">
+        CASE STUDY — {formatIndex(index)}
+      </p>
+      <h1 class="mt-6 text-[clamp(48px,10vw,144px)] leading-[0.88] font-bold tracking-[-0.05em] uppercase">
+        {project.name}
+      </h1>
+      <p class="mt-8">
+        <StatusTag status={project.status} label={project.statusLabel} />
+      </p>
+      <p class="mt-4 max-w-[720px] text-[20px] leading-[32px] text-ink-muted">
+        {project.description}
+      </p>
+      <ul class="mt-6 flex flex-wrap gap-2">
+        {project.tags.map((tag) => (
+          <li class="border border-line px-2 py-1 font-mono text-xs text-ink-muted">
+            {tag}
+          </li>
+        ))}
+      </ul>
+    </header>
+
+    <!-- Empty fields show "—": nothing here is filled in without approved data. -->
+    <dl class="mt-10 grid gap-6 border-y border-line py-6 font-mono text-[13px] tracking-[0.08em] md:grid-cols-3">
+      <div>
+        <dt class="text-ink-subtle">ROLE</dt>
+        <dd class="mt-2">{role || "—"}</dd>
+      </div>
+      <div>
+        <dt class="text-ink-subtle">YEAR</dt>
+        <dd class="mt-2">{year || "—"}</dd>
+      </div>
+      <div>
+        <dt class="text-ink-subtle">LINKS</dt>
+        <dd class="mt-2">
+          {links.length > 0 ? (
+            <ul class="flex flex-wrap gap-x-6 gap-y-2">
+              {links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="underline decoration-brand underline-offset-4 hover:text-brand-hover"
+                  >
+                    {link.label}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            "—"
+          )}
+        </dd>
+      </div>
+    </dl>
+
+    <Screenshot class="mt-12" />
+
+    <Content />
+
+    <nav
+      aria-label="Case studies"
+      class="mt-24 flex flex-col gap-8 border-t border-line pt-10 md:flex-row md:items-end md:justify-between"
+    >
+      <a href={next.caseUrl} class="group block">
+        <span class="block font-mono text-[13px] tracking-[0.08em] text-ink-muted">
+          Next project →
+        </span>
+        <span class="mt-3 block text-[32px] leading-[1.05] font-bold tracking-[-0.04em] uppercase group-hover:text-ink-muted">
+          {next.name}
+        </span>
+      </a>
+      <a
+        href="/work"
+        class="font-mono text-[13px] tracking-[0.08em] underline decoration-brand underline-offset-4 hover:text-brand-hover"
+      >
+        All work
+      </a>
+    </nav>
+  </article>
+</BaseLayout>

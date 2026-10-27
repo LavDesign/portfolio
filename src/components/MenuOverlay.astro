@@ -23,7 +23,12 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
     <nav aria-label="Main" class="flex-1 px-4 py-8 md:px-6 lg:px-12">
       <ul>
         {nav.map((item, index) => {
-          const isCurrent = item.href === currentPath;
+          // Sections own their subpages: /work/<slug> marks WORK as current.
+          const isCurrent =
+            item.href === "/"
+              ? currentPath === "/"
+              : currentPath === item.href ||
+                currentPath.startsWith(`${item.href}/`);
           return (
             <li class="menu-item" style={`--i: ${index}`}>
               <a

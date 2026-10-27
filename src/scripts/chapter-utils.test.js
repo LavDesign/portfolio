@@ -4,9 +4,17 @@ import {
   activeIndex,
   chapterForPanel,
   chapterLabel,
+  formatCount,
   formatIndex,
   scrollForOffset,
 } from "./chapter-utils.js";
+
+describe("formatCount", () => {
+  it("pads to two digits", () => {
+    expect(formatCount(4)).toBe("04");
+    expect(formatCount(12)).toBe("12");
+  });
+});
 
 describe("formatIndex", () => {
   it("pads to two digits and is 1-based", () => {

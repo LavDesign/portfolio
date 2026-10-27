@@ -1,12 +1,30 @@
 ---
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data/projects.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { formatCount } from "../scripts/chapter-utils.js";
 ---
 
 <BaseLayout
   title="Work — LAV Design"
   description="Selected work by LAV Design."
 >
-  <h1 class="px-4 py-16 text-4xl font-bold md:px-6 lg:px-12">
-    Work — coming in M4
-  </h1>
+  <div class="px-4 py-16 md:px-6 lg:px-12 xl:px-18">
+    <header class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <h1 class="text-[clamp(56px,11vw,144px)] leading-[0.88] font-bold tracking-[-0.05em] uppercase">
+        Work
+      </h1>
+      <p class="font-mono text-[13px] tracking-[0.08em] text-ink-muted">
+        {formatCount(projects.length)} PROJECTS
+      </p>
+    </header>
+
+    <ul class="mt-12 grid gap-x-8 gap-y-16 border-t border-line pt-12 md:grid-cols-2">
+      {projects.map((_project, index) => (
+        <li>
+          <ProjectCard {index} />
+        </li>
+      ))}
+    </ul>
+  </div>
 </BaseLayout>

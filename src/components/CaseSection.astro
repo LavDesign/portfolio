@@ -1,0 +1,18 @@
+---
+const { number, title } = Astro.props;
+---
+
+<section class="mt-16 border-t border-line pt-10">
+  <p
+    aria-hidden="true"
+    class="font-mono text-[13px] tracking-[0.08em] text-brand"
+  >
+    {number} —
+  </p>
+  <h2 class="mt-4 text-[40px] leading-[1.1] font-bold tracking-[-0.03em]">
+    {title}
+  </h2>
+  <div class="mt-6 max-w-[68ch] space-y-4 text-[17px] leading-[27px]">
+    <slot />
+  </div>
+</section>

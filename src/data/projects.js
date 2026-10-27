@@ -47,3 +47,9 @@ export const projects = [
     image: null,
   },
 ];
+
+/** The project after `slug` in the list, wrapping back to the first one. */
+export function nextProject(slug, list = projects) {
+  const index = list.findIndex((project) => project.slug === slug);
+  return list[(index + 1) % list.length];
+}
