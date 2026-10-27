@@ -1,12 +1,82 @@
 ---
+import Button from "../components/Button.astro";
+import CaseSection from "../components/CaseSection.astro";
+import TimelineList from "../components/TimelineList.astro";
+import Todo from "../components/Todo.astro";
+import { about } from "../data/about.js";
+import { ai } from "../data/ai.js";
+import { hero } from "../data/home.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { formatIndex } from "../scripts/chapter-utils.js";
 ---
 
 <BaseLayout
   title="About — LAV Design"
   description="About LAV Design (Luis Aguilar Vargas)."
 >
-  <h1 class="px-4 py-16 text-4xl font-bold md:px-6 lg:px-12">
-    About — coming soon
-  </h1>
+  <article class="px-4 py-16 md:px-6 lg:px-12 xl:px-18">
+    <header>
+      <p class="font-mono text-[13px] tracking-[0.08em] text-brand">ABOUT</p>
+      <h1 class="mt-6 text-[clamp(48px,10vw,144px)] leading-[0.88] font-bold tracking-[-0.05em] uppercase">
+        About
+      </h1>
+      <div class="mt-8 max-w-[720px] text-[20px] leading-[32px] text-ink-muted">
+        {about.story ? (
+          <p>{about.story}</p>
+        ) : (
+          <Todo note="story pending approval" />
+        )}
+      </div>
+    </header>
+
+    <CaseSection number="01" title="What I work with" wide>
+      <ul class="grid gap-8 md:grid-cols-3">
+        {about.skills.map((skill) => (
+          <li class="border-t-2 border-ink pt-6">
+            <h3 class="text-[22px] leading-[30px] font-semibold">
+              {skill.title}
+            </h3>
+            <p class="mt-3 text-ink-muted">{skill.text}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="!mt-10 max-w-[720px] text-[22px] leading-[30px] font-semibold">
+        {about.skillsClosing}
+      </p>
+    </CaseSection>
+
+    <CaseSection number="02" title="Twenty years">
+      <TimelineList />
+    </CaseSection>
+
+    <CaseSection number="03" title="How I work with AI">
+      <p class="text-[22px] leading-[30px] font-semibold">{ai.intro}</p>
+      <ol class="!mt-8 divide-y divide-line border-y border-line">
+        {ai.principles.map((principle, index) => (
+          <li class="flex gap-6 py-8">
+            <span
+              aria-hidden="true"
+              class="font-mono text-[13px] tracking-[0.08em] text-brand"
+            >
+              {formatIndex(index)}
+            </span>
+            <div>
+              <h3 class="text-[28px] leading-[1.1] font-bold tracking-[-0.03em] uppercase">
+                {principle.title}
+              </h3>
+              <p class="mt-3 text-ink-muted">{principle.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="!mt-8 text-[22px] leading-[30px] font-semibold">{ai.closing}</p>
+    </CaseSection>
+
+    <footer class="mt-24 flex flex-col gap-3 border-t border-line pt-10 md:flex-row">
+      <Button href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</Button>
+      <Button href={hero.ctaSecondary.href} variant="secondary">
+        {hero.ctaSecondary.label}
+      </Button>
+    </footer>
+  </article>
 </BaseLayout>
