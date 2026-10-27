@@ -1,0 +1,23 @@
+---
+// `parallax` adds a 10% overscan layer that chapters.js can drift on the Home.
+const { parallax = false, class: className } = Astro.props;
+---
+
+<!-- TODO: replace the placeholder with the real screenshot once `project.image` exists. -->
+<div
+  class:list={[
+    "relative aspect-[16/10] w-full overflow-hidden rounded-[24px_4px] border border-line bg-surface",
+    className,
+  ]}
+>
+  <div
+    aria-hidden="true"
+    data-parallax={parallax ? "" : undefined}
+    class:list={[
+      "absolute inset-y-0 flex items-center justify-center font-mono text-xs tracking-[0.08em] text-ink-subtle",
+      parallax ? "-left-[10%] w-[120%]" : "inset-x-0",
+    ]}
+  >
+    [ 16:10 SCREENSHOT ]
+  </div>
+</div>

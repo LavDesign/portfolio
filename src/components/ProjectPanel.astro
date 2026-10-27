@@ -1,6 +1,7 @@
 ---
 import { projects } from "../data/projects.js";
 import { formatIndex } from "../scripts/chapter-utils.js";
+import Screenshot from "./Screenshot.astro";
 import StatusTag from "./StatusTag.astro";
 
 // Reads the project from the data so its fields stay typed (props are untyped JS).
@@ -71,16 +72,7 @@ const headingId = `project-${project.slug}`;
   </div>
 
   <div class="order-first horizontal:order-none">
-    <!-- TODO: replace the placeholder with the real screenshot once `project.image` exists. -->
-    <div class="relative aspect-[16/10] w-full overflow-hidden rounded-[24px_4px] border border-line bg-surface">
-      <div
-        aria-hidden="true"
-        data-parallax
-        class="absolute inset-y-0 -left-[10%] flex w-[120%] items-center justify-center font-mono text-xs tracking-[0.08em] text-ink-subtle"
-      >
-        [ 16:10 SCREENSHOT ]
-      </div>
-    </div>
+    <Screenshot parallax />
 
     <div
       aria-hidden="true"
