@@ -1,0 +1,26 @@
+---
+import Lockup from "../assets/brand/lav-lockup-dark-notag.svg";
+import { social } from "../data/site.js";
+
+// In normal flow (not fixed). BaseLayout renders it on every page; on the Home the Hero
+// renders it as its top row instead, so it scrolls away with the hero.
+// Desktop grid: a 72px row whose bottom border lines up with the rail's menu cell.
+// MenuOverlay mirrors this row (same height, padding and logo size) with the white lockup.
+---
+
+<div class="flex items-center justify-end gap-6 px-4 pt-6 md:px-6 lg:h-18 lg:justify-between lg:border-b lg:border-line lg:px-12 lg:pt-0 xl:px-18">
+  <!-- Below lg the top bar carries the logo, so only the social links show here. -->
+  <a href="/" aria-label="LAV Design — Home" class="hidden shrink-0 lg:block">
+    <Lockup aria-hidden="true" class="h-10 w-auto" />
+  </a>
+
+  <ul class="flex gap-6 text-base text-ink">
+    {social.map((link) => (
+      <li>
+        <a href={link.href} class="hover:text-ink-muted">
+          {link.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>

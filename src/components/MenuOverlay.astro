@@ -1,26 +1,57 @@
 ---
+import MenuLockup from "../assets/brand/lav-lockup-white-notag.svg";
 import { nav, social } from "../data/site.js";
+
+// Exploration for review: the white lockup in the open menu. To remove it, set this to
+// false (or delete this flag, the import above and the showLockup block).
+const showLockup = true;
 
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 ---
 
+<!--
+  Shares the page grid. Desktop: the dialog is transparent over the rail; a close button sits
+  exactly on the rail's menu cell, and the panel's 72px top row mirrors SiteHeader (white lockup
+  in the dark lockup's place, CLOSE on the right). Mobile: the top row mirrors the 64px top bar.
+-->
 <dialog
   id="site-menu"
   aria-label="Site menu"
-  class="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto border-0 bg-surface p-0 text-ink backdrop:bg-surface open:flex"
+  class="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto border-0 bg-transparent p-0 text-ink backdrop:bg-transparent open:flex"
 >
-  <div class="flex min-h-full w-full flex-col">
-    <div class="flex h-16 shrink-0 items-center justify-end px-4 md:px-6 lg:h-18 lg:px-12">
+  <!-- Same spot as the button that opened the menu: the top bar's (mobile) or the rail cell (desktop). -->
+  <button
+    type="button"
+    aria-label="Close menu"
+    aria-expanded="true"
+    aria-controls="site-menu"
+    data-menu-close
+    class="absolute top-[9.5px] right-2 z-10 flex size-11 items-center justify-center md:right-4 lg:top-0 lg:right-auto lg:left-0 lg:size-18 lg:border-r lg:border-b lg:border-line lg:bg-bg"
+  >
+    <span aria-hidden="true" class="h-0.5 w-7 bg-brand"></span>
+  </button>
+
+  <div class="flex min-h-full w-full flex-col bg-surface lg:ml-18 lg:w-[calc(100%-4.5rem)]">
+    <div class="flex h-16 shrink-0 items-center justify-between border-b border-line px-4 md:px-6 lg:h-18 lg:px-12 xl:px-18">
+      {showLockup ? (
+        <MenuLockup aria-hidden="true" class="h-7 w-auto lg:h-10" />
+      ) : (
+        <span />
+      )}
       <button
         type="button"
-        class="-mr-2 min-h-11 px-2 font-mono text-sm tracking-[0.12em]"
+        class="-mr-2 hidden min-h-11 px-2 font-mono text-sm tracking-[0.12em] lg:block"
         data-menu-close
       >
         CLOSE
       </button>
     </div>
 
-    <nav aria-label="Main" class="flex-1 px-4 py-8 md:px-6 lg:px-12">
+    <!-- Centered in the space under the top row, with at least 48px of air below its border. -->
+    <nav
+      aria-label="Main"
+      class="flex flex-1 flex-col justify-center px-4 py-12 md:px-6 lg:px-12 xl:px-18"
+    >
       <ul>
         {nav.map((item, index) => {
           // Sections own their subpages: /work/<slug> marks WORK as current.
@@ -53,12 +84,12 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
       </ul>
     </nav>
 
-    <ul class="flex shrink-0 flex-wrap justify-end gap-x-6 gap-y-2 px-4 pb-8 font-mono text-sm tracking-[0.12em] text-ink-muted md:px-6 lg:px-12">
+    <ul class="flex shrink-0 flex-wrap justify-end gap-x-6 gap-y-2 px-4 pb-8 text-base text-ink md:px-6 lg:px-12 xl:px-18">
       {social.map((link) => (
         <li>
           <a
             href={link.href}
-            class="inline-flex min-h-11 items-center hover:text-ink"
+            class="inline-flex min-h-11 items-center hover:text-ink-muted"
           >
             {link.label}
           </a>

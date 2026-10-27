@@ -1,7 +1,7 @@
 ---
 import { hero } from "../data/home.js";
-import { social } from "../data/site.js";
 import Button from "./Button.astro";
+import SiteHeader from "./SiteHeader.astro";
 ---
 
 <!-- Hide animated parts before first paint only when JS runs and motion is allowed; a timeout keeps them from staying hidden. -->
@@ -13,68 +13,63 @@ import Button from "./Button.astro";
   }
 </script>
 
-<section class="flex flex-col gap-12 px-4 py-10 md:px-6 lg:min-h-svh lg:justify-between lg:gap-16 lg:px-18">
-  <ul class="flex justify-end gap-6 text-base text-ink">
-    {social.map((link) => (
-      <li>
-        <a href={link.href} class="hover:text-ink-muted">
-          {link.label}
-        </a>
-      </li>
-    ))}
-  </ul>
+<section class="flex flex-col lg:min-h-svh">
+  <SiteHeader />
 
-  <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-    <h1
-      aria-label={hero.titleWords.join(" ")}
-      class="text-[clamp(54px,10.5vw,152px)] leading-[0.86] font-bold tracking-[-0.05em] uppercase"
-    >
-      <span class="block" aria-hidden="true" data-hero-title>
-        {hero.titleWords.map((word) => (
-          <span class="block">{word}</span>
-        ))}
-      </span>
-    </h1>
-
-    <div class="flex items-center gap-3 lg:flex-col lg:items-start lg:gap-4 lg:pb-3">
-      <span class="h-[3px] w-8 bg-brand lg:h-1 lg:w-16" data-hero-fade></span>
-      <p
-        class="font-mono text-base tracking-[0.06em] lg:text-xl"
-        data-hero-fade
+  <!-- Same horizontal grid as SiteHeader and the menu overlay. -->
+  <div class="flex flex-1 flex-col gap-12 px-4 py-10 md:px-6 lg:gap-16 lg:px-12 xl:px-18">
+    <div class="flex flex-col gap-6 lg:my-auto lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+      <h1
+        aria-label={hero.titleWords.join(" ")}
+        class="text-[clamp(54px,10.5vw,152px)] leading-[0.86] font-bold tracking-[-0.05em] uppercase"
       >
-        {hero.stack.map((item, index) => (
-          <>
-            {index > 0 && <span class="lg:hidden"> / </span>}
-            <span class="lg:block">{item}</span>
-          </>
-        ))}
-      </p>
-    </div>
-  </div>
+        <span class="block" aria-hidden="true" data-hero-title>
+          {hero.titleWords.map((word) => (
+            <span class="block">{word}</span>
+          ))}
+        </span>
+      </h1>
 
-  <div class="flex flex-col gap-8 border-t border-line pt-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-    <div data-hero-fade>
-      <p class="text-2xl leading-[30px] font-semibold tracking-[-0.02em] lg:text-[32px] lg:leading-[38px]">
-        {hero.statement}
-      </p>
-      <p class="mt-4 max-w-[620px] text-[17px] leading-[27px] text-ink-muted">
-        {hero.lead}
-      </p>
-    </div>
-
-    <div class="flex shrink-0 flex-col gap-4 lg:items-end" data-hero-fade>
-      <div class="flex flex-col gap-3 lg:flex-row">
-        <Button href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</Button>
-        <Button href={hero.ctaSecondary.href} variant="secondary">
-          {hero.ctaSecondary.label}
-        </Button>
+      <div class="flex items-center gap-3 lg:flex-col lg:items-start lg:gap-4 lg:pb-3">
+        <span class="h-[3px] w-8 bg-brand lg:h-1 lg:w-16" data-hero-fade></span>
+        <p
+          class="font-mono text-base tracking-[0.06em] lg:text-xl"
+          data-hero-fade
+        >
+          {hero.stack.map((item, index) => (
+            <>
+              {index > 0 && <span class="lg:hidden"> / </span>}
+              <span class="lg:block">{item}</span>
+            </>
+          ))}
+        </p>
       </div>
-      <a
-        href="#work"
-        class="font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase hover:text-ink"
-      >
-        {hero.scrollHint}
-      </a>
+    </div>
+
+    <div class="flex flex-col gap-8 border-t border-line pt-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+      <div data-hero-fade>
+        <p class="text-2xl leading-[30px] font-semibold tracking-[-0.02em] lg:text-[32px] lg:leading-[38px]">
+          {hero.statement}
+        </p>
+        <p class="mt-4 max-w-[620px] text-[17px] leading-[27px] text-ink-muted">
+          {hero.lead}
+        </p>
+      </div>
+
+      <div class="flex shrink-0 flex-col gap-4 lg:items-end" data-hero-fade>
+        <div class="flex flex-col gap-3 lg:flex-row">
+          <Button href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</Button>
+          <Button href={hero.ctaSecondary.href} variant="secondary">
+            {hero.ctaSecondary.label}
+          </Button>
+        </div>
+        <a
+          href="#work"
+          class="font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase hover:text-ink"
+        >
+          {hero.scrollHint}
+        </a>
+      </div>
     </div>
   </div>
 </section>

@@ -1,9 +1,12 @@
 ---
+import Lockup from "../assets/brand/lav-lockup-dark-notag.svg";
 import MenuIcon from "./MenuIcon.astro";
 ---
 
 <header class="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-line bg-bg px-4 md:px-6 lg:hidden">
-  <p class="text-base font-bold">LAV Design</p>
+  <a href="/" aria-label="LAV Design — Home" class="flex min-h-11 items-center">
+    <Lockup aria-hidden="true" class="h-7 w-auto" />
+  </a>
 
   <button
     type="button"
