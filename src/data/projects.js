@@ -19,7 +19,13 @@ import pacificEcosolutions960 from "../assets/captures/pacific-ecosolutions-full
 import vetegram1440 from "../assets/captures/vetegram-full-1440.webp";
 import vetegram960 from "../assets/captures/vetegram-full-960.webp";
 
-export const PROJECT_STATUSES = ["live", "demo", "concept", "design"];
+export const PROJECT_STATUSES = [
+  "live",
+  "live-demo",
+  "demo",
+  "concept",
+  "design",
+];
 
 // Captures: `src` maps each width to its file (scripts/process-captures.mjs generates them),
 // `width`/`height` are the largest version's size.
@@ -110,8 +116,8 @@ export const projects = [
   {
     slug: "vetegram",
     name: "Vetegram",
-    status: "live",
-    statusLabel: "Live site",
+    status: "live-demo",
+    statusLabel: "Live demo",
     description:
       "A veterinary-tech landing page migrated to React and Tailwind. Mobile Lighthouse performance went from 86 to 93, and accessibility violations from 1 to 0.",
     tags: ["React", "Tailwind CSS", "Accessibility", "AI-assisted development"],

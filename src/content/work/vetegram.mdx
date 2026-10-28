@@ -1,40 +1,126 @@
 ---
-role: ""
-year: ""
+role: "Original design (2024) · Product and technical direction · AI-assisted development"
+year: "2024 · 2026"
 links:
-  - label: Live site
+  - label: Live demo
     href: https://vetegram-lavdesign.vercel.app
   - label: Code
     href: https://github.com/LavDesign/vetegram-react
 ---
 
 import CaseSection from "../../components/CaseSection.astro";
-import Todo from "../../components/Todo.astro";
 
 <CaseSection number="01" title="The problem">
-  <Todo />
+
+Vetegram is an early-stage venture, started by the owners of a pet shop, building a management platform for veterinary clinics in Costa Rica and Central America. I designed and built their original marketing site in 2024 from just their logo, without a Figma file and with full creative freedom, in HTML, Bootstrap 4 and jQuery. Before launching, they asked me to refresh it: rebuild it in React and Tailwind CSS, keep the brand, content and layout, and improve accessibility, performance and maintainability. The site content is in Spanish.
+
 </CaseSection>
 
 <CaseSection number="02" title="My role">
-  <Todo />
+
+I designed the original site. For the rebuild, I led product, design and technical decisions, the milestone plan, and the review of every milestone in the browser. Claude Code wrote the code from my decisions.
+
 </CaseSection>
 
 <CaseSection number="03" title="Process">
-  <Todo />
+
+I split the work into milestones, ten pull requests in total, each on its own branch with a description, verification steps and measured results. CI had to pass before anything merged into a protected main branch, and Vercel previews let me review every change before each deploy. I measured before and after with Lighthouse and axe-core on the production build, so every improvement in this case is a number, not an impression.
+
 </CaseSection>
 
 <CaseSection number="04" title="Key decisions">
-  <Todo />
+  <ol class="list-decimal space-y-4 pl-6 marker:font-mono marker:text-ink-subtle">
+    <li>
+      <strong>Keep the brand, fix the contrast.</strong> Instead of changing
+      Vetegram's palette, I changed text colors: menu text became dark instead
+      of white on the brand's sky blue (about 2:1 before), and the contact box
+      went from 50% to 85% opacity, so text meets WCAG AA in the original
+      colors.
+    </li>
+    <li>
+      <strong>Remove autoplay instead of fixing it.</strong> The carousels had
+      autoplay with a pause button that seemed to do nothing. Rather than fix
+      the button, I removed autoplay from both: moving content hurts usability
+      and needs a reliable pause control under WCAG 2.2.2.
+    </li>
+    <li>
+      <strong>Native carousels, no library.</strong> CSS scroll-snap gives
+      native swipe and scrolling, with a small shared hook that reads the
+      position back from the scroll. The Services slider shows 3, 2 or 1 cards
+      by width, with one indicator per card, measured from the scroll position
+      rather than breakpoints.
+    </li>
+    <li>
+      <strong>No router for a single page.</strong> Anchor navigation is enough;
+      a router would add weight without adding anything.
+    </li>
+    <li>
+      <strong>Images from 15.3 MB to 0.89 MB.</strong> The original image folder
+      held 15.3 MB of JPG and PNG. The site now ships 12 WebP files totaling
+      0.89 MB, including the hero photos the original loaded from Unsplash.
+    </li>
+    <li>
+      <strong>A form that can't send by accident.</strong> It validates inline,
+      blocks spam with a honeypot, and only sends through Formspree when it's
+      configured, so the public demo never sends messages.
+    </li>
+    <li>
+      <strong>Design tokens in one place.</strong> All brand tokens live in
+      Tailwind v4's <code>@theme</code>, in CSS: one source of truth, with no
+      JavaScript config.
+    </li>
+  </ol>
 </CaseSection>
 
 <CaseSection number="05" title="Honest result">
-  <Todo />
+
+Measured with Lighthouse (median of 3 runs on the production build), mobile performance went from 86 to 93 and LCP from 4.1 s to 3.0 s; best practices and SEO reached 100, and accessibility stayed at 100. axe-core found 1 serious violation before and 0 after. The site has 14 tests and runs CI on every pull request. A demo is live on Vercel; Vetegram hasn't launched the site yet, and the contact form is in demo mode, so it doesn't send messages. Mobile LCP is now limited by client-side rendering.
+
 </CaseSection>
 
 <CaseSection number="06" title="What's pending">
-  <Todo />
+  <ul class="list-disc space-y-2 pl-6 marker:text-ink-subtle">
+    <li>Turn on Formspree in production.</li>
+    <li>
+      Real copy for the About accordion and for Services cards 3 and 4, which
+      repeat Grooming and Marketplace, as in the original.
+    </li>
+    <li>Real social profile URLs (the original used generic ones).</li>
+    <li>Replace the photos whose source isn't confirmed.</li>
+    <li>Prerender the page to lower mobile LCP.</li>
+  </ul>
 </CaseSection>
 
 <CaseSection number="07" title="What I learned">
-  <Todo />
+  <ul class="list-disc space-y-4 pl-6 marker:text-ink-subtle">
+    <li>
+      <strong>Directing AI still needs a designer's eye.</strong> Reviewing
+      every milestone in the browser, I caught what the implementation missed: a
+      pause button that seemed to do nothing, a missing pointer cursor, an
+      abrupt hover, and slider dots that didn't match the number of cards.
+    </li>
+    <li>
+      <strong>Simpler beats clever.</strong> Removing autoplay was better for
+      users than fixing its pause button.
+    </li>
+    <li>
+      <strong>Accessibility can keep the brand.</strong> Changing text colors
+      reached AA without touching the palette.
+    </li>
+    <li>
+      <strong>Motion principles work on the web.</strong> The cat's jump uses
+      anticipation, stretch and squash, and every animation respects
+      reduced-motion settings.
+    </li>
+    <li>
+      <strong>Process matters, even solo.</strong> One branch and pull request
+      per milestone, CI and a protected main made every change reviewable before
+      each deploy.
+    </li>
+  </ul>
 </CaseSection>
+
+<p class="mt-16 font-mono text-[13px] tracking-[0.08em] text-ink-subtle">
+  Hero photos from Unsplash. Other photos carried over from the original site.
+  Vetegram brand shown with permission.
+</p>

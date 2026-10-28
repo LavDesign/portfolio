@@ -47,6 +47,6 @@ Astro 7 (static) · Tailwind CSS v4 (tokens in src/styles/global.css @theme) · 
 ## Status
 
 Done: M1–M6e (setup, shell, hero, horizontal chapters, Work and case template, About and Contact, polish, identity, captures, menu motion, chapter indicator).
-Case study content: GCE ready; Vetegram, PES and Costa Ballena pending.
+Case study content: GCE and Vetegram ready; PES and Costa Ballena pending.
 Next: remaining case study content, real contact form (Formspree), M7 launch on Vercel (site URL, canonical, sitemap, absolute og:image, README, ruleset, Lighthouse on the live URL).
 Update this section in every milestone PR.
