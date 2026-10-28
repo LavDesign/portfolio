@@ -51,3 +51,20 @@
     cursor: pointer;
   }
 }
+
+/*
+  Cross-document view transitions: page-to-page navigation crossfades (250ms ease-out), so a
+  link clicked in the open menu fades the menu straight into the next page. Browsers without
+  support navigate normally; with reduced motion there is no transition.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 250ms;
+    animation-timing-function: ease-out;
+  }
+}
