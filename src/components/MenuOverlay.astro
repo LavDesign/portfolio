@@ -13,7 +13,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <!--
   Shares the page grid. Desktop: the dialog is transparent over the rail; a close button sits
   exactly on the rail's menu cell, and the panel's 72px top row mirrors SiteHeader (white lockup
-  in the dark lockup's place, CLOSE on the right). Mobile: the top row mirrors the 64px top bar.
+  in the dark lockup's place, CLOSE + X on the right). Mobile: the top row mirrors the 64px top bar.
 -->
 <dialog
   id="site-menu"
@@ -33,19 +33,30 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
     <MenuIcon />
   </button>
 
-  <div class="flex min-h-full w-full flex-col bg-surface lg:ml-18 lg:w-[calc(100%-4.5rem)]">
+  <!-- The panel fades and rises 8px on open and close (menu.js); the button above stays put. -->
+  <div
+    data-menu-panel
+    class="flex min-h-full w-full flex-col bg-surface lg:ml-18 lg:w-[calc(100%-4.5rem)]"
+  >
     <div class="flex h-16 shrink-0 items-center justify-between border-b border-line px-4 md:px-6 lg:h-18 lg:px-12 xl:px-18">
       {showLockup ? (
         <MenuLockup aria-hidden="true" class="h-7 w-auto lg:h-10" />
       ) : (
         <span />
       )}
+      <!-- One control: CLOSE and a 24px X (two crossed 2px lines) on the same axis; both turn
+           brand on hover and focus. The label keeps the visible word in the accessible name. -->
       <button
         type="button"
-        class="-mr-2 hidden min-h-11 px-2 font-mono text-sm tracking-[0.12em] lg:block"
+        aria-label="Close menu"
+        class="group/close -mr-2 hidden min-h-11 items-center gap-3 px-2 font-mono text-sm tracking-[0.12em] transition-[color] duration-200 ease-out hover:text-brand focus-visible:text-brand lg:inline-flex"
         data-menu-close
       >
         CLOSE
+        <span aria-hidden="true" class="relative size-6 shrink-0">
+          <span class="absolute top-1/2 left-1/2 h-0.5 w-6 -translate-1/2 bg-ink transition-[background-color] duration-200 ease-out group-hover/close:bg-brand group-focus-visible/close:bg-brand rotate-45"></span>
+          <span class="absolute top-1/2 left-1/2 h-0.5 w-6 -translate-1/2 bg-ink transition-[background-color] duration-200 ease-out group-hover/close:bg-brand group-focus-visible/close:bg-brand -rotate-45"></span>
+        </span>
       </button>
     </div>
 
@@ -105,7 +116,8 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
   @media (prefers-reduced-motion: no-preference) {
     dialog[open] .menu-item {
       animation: menu-item-in 300ms ease-out both;
-      animation-delay: calc(var(--i) * 50ms);
+      /* Starts just after the panel begins to fade in (menu.js). */
+      animation-delay: calc(80ms + var(--i) * 50ms);
     }
   }
 

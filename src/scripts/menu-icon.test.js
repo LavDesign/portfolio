@@ -33,7 +33,7 @@ describe("menu icon", () => {
 
   it("returns every icon to the menu state when the menu closes", () => {
     emit("menu:open");
-    emit("menu:close");
+    emit("menu:closing");
     expect([state("close"), state("rail"), state("topbar")]).toEqual([
       "menu",
       "menu",
@@ -43,10 +43,10 @@ describe("menu icon", () => {
 
   it("ends consistent when closed and reopened quickly", () => {
     emit("menu:open");
-    emit("menu:close");
+    emit("menu:closing");
     emit("menu:open");
     expect(state("close")).toBe("close");
-    emit("menu:close");
+    emit("menu:closing");
     expect(state("rail")).toBe("menu");
   });
 });
