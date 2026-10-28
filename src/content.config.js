@@ -13,7 +13,13 @@ const work = defineCollection({
     // Optional; shown in the meta row only when set.
     credits: z.string().default(""),
     links: z
-      .array(z.object({ label: z.string().min(1), href: z.url() }))
+      .array(
+        z.object({
+          label: z.string().min(1),
+          // Absolute URL, or an internal path such as "/contact?type=hire".
+          href: z.union([z.url(), z.string().regex(/^\/(?!\/)/)]),
+        }),
+      )
       .default([]),
   }),
 });

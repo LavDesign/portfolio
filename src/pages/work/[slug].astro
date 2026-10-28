@@ -77,7 +77,9 @@ const { role, year, links, credits } = entry.data;
                     class="underline decoration-brand underline-offset-4 hover:text-brand-hover"
                   >
                     {link.label}
-                    <span aria-hidden="true">↗</span>
+                    {/^https?:/.test(link.href) && (
+                      <span aria-hidden="true">↗</span>
+                    )}
                   </a>
                 </li>
               ))}

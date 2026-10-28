@@ -15,6 +15,7 @@ const SECTIONS = [
   "Key decisions",
   "Honest result",
   "What's pending",
+  "What I learned",
 ];
 
 describe("work collection", () => {
@@ -24,7 +25,7 @@ describe("work collection", () => {
     );
   });
 
-  it.each(slugs)("%s has the 6 sections in order", (slug) => {
+  it.each(slugs)("%s has the 7 sections in order", (slug) => {
     const source = readFileSync(new URL(`${slug}.mdx`, dir), "utf8");
     const titles = [
       ...source.matchAll(/<CaseSection[^>]*title="([^"]+)"/g),
