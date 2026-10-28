@@ -1,23 +1,93 @@
 ---
-// `parallax` adds a 10% overscan layer that chapters.js can drift on the Home.
-const { parallax = false, class: className } = Astro.props;
+// A 16:10 frame. With `screens` (mobile screens) it shows them side by side, aligned to the
+// top; otherwise with `image` (a full-page capture) it shows it at full width, aligned to the
+// top. chapters.js scrolls each [data-capture] on the Home, and `hoverScroll` slides them down
+// while the parent `.group` is hovered or focused. With neither it shows the placeholder,
+// and `parallax` adds a 10% overscan layer that chapters.js can drift.
+import { captureShift, largestSrc, srcsetFor } from "../scripts/captures.js";
+
+const {
+  image = null,
+  screens = null,
+  parallax = false,
+  hoverScroll = false,
+  sizes = "(min-width: 1024px) 60vw, 100vw",
+  class: className,
+} = Astro.props;
+
+// Screen columns, as fractions of the frame's width: 5% padding (sides and top) and gaps of
+// 6% of the padded width. The frame is 16:10, so a column shows 62.5% - 5% of that width.
+const PADDING = 0.05;
+const GAP = 0.06;
+// Spread so the screens are an array, not `any`, for the typed map below.
+const columns = screens ? [...screens] : [];
+const columnWidth = screens
+  ? ((1 - 2 * PADDING) * (1 - GAP * (columns.length - 1))) / columns.length
+  : 1;
+const columnHeight = screens ? 10 / 16 - PADDING : 10 / 16;
+
+// `--capture-shift` is the CSS hover scroll's distance; chapters.js measures its own in px.
+const hoverClass =
+  hoverScroll &&
+  "transition-[translate] duration-4000 ease-in-out motion-safe:group-hover:translate-y-(--capture-shift) motion-safe:group-focus-visible:translate-y-(--capture-shift)";
 ---
 
-<!-- TODO: replace the placeholder with the real screenshot once `project.image` exists. -->
 <div
   class:list={[
     "relative aspect-[16/10] w-full overflow-hidden rounded-[24px_4px] border border-line bg-surface",
     className,
   ]}
 >
-  <div
-    aria-hidden="true"
-    data-parallax={parallax ? "" : undefined}
-    class:list={[
-      "absolute inset-y-0 flex items-center justify-center font-mono text-xs tracking-[0.08em] text-ink-subtle",
-      parallax ? "-left-[10%] w-[120%]" : "inset-x-0",
-    ]}
-  >
-    [ 16:10 SCREENSHOT ]
-  </div>
+  {screens ? (
+    <div class="absolute inset-0 flex gap-[6%] px-[5%] pt-[5%]">
+      {columns.map((screen) => (
+        <div class="relative flex-1 overflow-hidden">
+          <img
+            src={largestSrc(screen)}
+            srcset={srcsetFor(screen)}
+            sizes="(min-width: 1024px) 12vw, 25vw"
+            width={screen.width}
+            height={screen.height}
+            alt={screen.alt}
+            loading="lazy"
+            decoding="async"
+            data-capture
+            style={`--capture-shift: ${captureShift(screen, columnWidth, columnHeight).toFixed(3)}%`}
+            class:list={[
+              "absolute inset-x-0 top-0 h-auto w-full max-w-none",
+              hoverClass,
+            ]}
+          />
+        </div>
+      ))}
+    </div>
+  ) : image ? (
+    <img
+      src={largestSrc(image)}
+      srcset={srcsetFor(image)}
+      {sizes}
+      width={image.width}
+      height={image.height}
+      alt={image.alt}
+      loading="lazy"
+      decoding="async"
+      data-capture
+      style={`--capture-shift: ${captureShift(image, columnWidth, columnHeight).toFixed(3)}%`}
+      class:list={[
+        "absolute inset-x-0 top-0 h-auto w-full max-w-none",
+        hoverClass,
+      ]}
+    />
+  ) : (
+    <div
+      aria-hidden="true"
+      data-parallax={parallax ? "" : undefined}
+      class:list={[
+        "absolute inset-y-0 flex items-center justify-center font-mono text-xs tracking-[0.08em] text-ink-subtle",
+        parallax ? "-left-[10%] w-[120%]" : "inset-x-0",
+      ]}
+    >
+      [ 16:10 SCREENSHOT ]
+    </div>
+  )}
 </div>

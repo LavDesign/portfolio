@@ -78,8 +78,10 @@ const { title, description, noindex = false, siteHeader = true } = Astro.props;
     <MenuOverlay />
 
     <script>
+      import { initMenuIcon } from "../scripts/menu-icon.js";
       import { initMenu } from "../scripts/menu.js";
 
+      initMenuIcon();
       initMenu();
     </script>
   </body>

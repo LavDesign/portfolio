@@ -10,6 +10,8 @@ const work = defineCollection({
     // Leave empty until approved; the page shows "—".
     role: z.string().default(""),
     year: z.string().default(""),
+    // Optional; shown in the meta row only when set.
+    credits: z.string().default(""),
     links: z
       .array(z.object({ label: z.string().min(1), href: z.url() }))
       .default([]),

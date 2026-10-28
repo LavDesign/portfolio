@@ -10,7 +10,13 @@ const project = projects[index];
 ---
 
 <a href={project.caseUrl} class="group block">
-  <Screenshot class="transition-[translate,border-color] duration-200 ease-out group-hover:border-line-strong motion-safe:group-hover:-translate-y-0.5" />
+  <Screenshot
+    image={project.image}
+    screens={project.screens}
+    hoverScroll
+    sizes="(min-width: 768px) 50vw, 100vw"
+    class="transition-[translate,border-color] duration-200 ease-out group-hover:border-line-strong motion-safe:group-hover:-translate-y-0.5"
+  />
   <p class="mt-5 flex items-center gap-2 font-mono text-xs tracking-[0.08em]">
     <span>{formatIndex(index)} ·</span>
     <StatusTag status={project.status} label={project.statusLabel} />

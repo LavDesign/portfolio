@@ -6,9 +6,11 @@ import "lenis/dist/lenis.css";
 import {
   activeIndex,
   chapterForPanel,
-  chapterLabel,
   scrollForOffset,
+  scrollLength,
+  trackPosition,
 } from "./chapter-utils.js";
+import { createRailStatus } from "./rail-status.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +19,12 @@ const HORIZONTAL_QUERY =
   "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
 // "not all and (a) and (b)" negates the whole query, so exactly one condition matches.
 const VERTICAL_QUERY = `not all and ${HORIZONTAL_QUERY}`;
+// How long the track stops on a project with a capture while the capture scrolls from top to
+// bottom, in screens of scroll (1 = 100vh). Projects with a placeholder never stop; a project
+// can override it with `pauseScreens` in projects.js.
+const CAPTURE_PAUSE_SCREENS = 1;
+// Placeholder drift across a panel's pass through the viewport, in % of the layer's width.
+const PARALLAX_RANGE = 8;
 
 export function initChapters(doc = document) {
   const section = doc.querySelector("[data-chapters]");
@@ -30,14 +38,8 @@ export function initChapters(doc = document) {
     (chapter) => chapter.querySelectorAll("[data-panel]").length,
   );
   const total = Number(section.dataset.chapterTotal);
-  const railStatus = doc.querySelector("[data-rail-status]");
-  const railDefault = railStatus?.textContent.trim() ?? "";
-
-  const setRail = (text) => {
-    if (railStatus && railStatus.textContent !== text) {
-      railStatus.textContent = text;
-    }
-  };
+  // set(index) shows "CH.n / total"; set(null) restores "© 2026".
+  const rail = createRailStatus(doc.querySelector("[data-rail-status]"), total);
 
   const mm = gsap.matchMedia();
 
@@ -56,52 +58,89 @@ export function initChapters(doc = document) {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
-    const distance = () => track.scrollWidth - section.clientWidth;
+    const captures = [...track.querySelectorAll("[data-capture]")];
+    // One pause per panel, however many captures it holds (Costa Ballena has three screens).
+    const pausePanels = [
+      ...new Set(captures.map((capture) => capture.closest("[data-panel]"))),
+    ];
+    const pauseOf = captures.map((capture) =>
+      pausePanels.indexOf(capture.closest("[data-panel]")),
+    );
+    const layers = [...track.querySelectorAll("[data-parallax]")];
 
     // Offset of an element along the track, unaffected by the track's transform.
     const trackOffset = (element) =>
       element.getBoundingClientRect().left - track.getBoundingClientRect().left;
 
-    // The page ends with Ch.4 on screen, so at progress 1 keep its label.
-    const updateRail = (self) => {
-      if (!self.isActive && self.progress < 1) return setRail(railDefault);
-      const position = self.progress * distance() + section.clientWidth / 2;
-      const panel = activeIndex(panels.map(trackOffset), position);
-      setRail(chapterLabel(chapterForPanel(panel, panelCounts), total));
+    // Layout measurements, refreshed whenever ScrollTrigger refreshes (load, resize).
+    let geometry;
+    const measure = () => {
+      const distance = track.scrollWidth - section.clientWidth;
+      geometry = {
+        distance,
+        // The track stops with each capture's panel flush with the section's left edge.
+        pauses: pausePanels.map((panel) =>
+          Math.min(trackOffset(panel), distance),
+        ),
+        // A project can set its own length (`pauseScreens` in projects.js).
+        pauseLength: window.innerHeight * CAPTURE_PAUSE_SCREENS,
+        pauseLengths: pausePanels.map(
+          (panel) =>
+            window.innerHeight *
+            Number(panel.dataset.pauseScreens || CAPTURE_PAUSE_SCREENS),
+        ),
+        panelOffsets: panels.map(trackOffset),
+        // px each capture moves to show its bottom edge in its clipping box. Every capture
+        // in a panel shares the pause, so they all reach their bottom at the same time.
+        shifts: captures.map((capture) =>
+          Math.max(
+            capture.offsetHeight - capture.parentElement.clientHeight,
+            0,
+          ),
+        ),
+        frames: layers.map(({ parentElement: frame }) => ({
+          offset: trackOffset(frame),
+          width: frame.offsetWidth,
+        })),
+      };
+    };
+    measure();
+
+    const render = (self) => {
+      const scrolled = self.scroll() - self.start;
+      const { travel, pauses } = trackPosition(scrolled, geometry);
+      track.style.transform = `translate3d(${-travel}px, 0, 0)`;
+
+      captures.forEach((capture, index) => {
+        const progress = pauses[pauseOf[index]];
+        capture.style.transform = `translateY(${-progress * geometry.shifts[index]}px)`;
+      });
+
+      // Parallax: each placeholder drifts against its frame, within its 10% overscan, from
+      // when the frame enters on the right until it leaves on the left.
+      const viewport = section.clientWidth;
+      layers.forEach((layer, index) => {
+        const { offset, width } = geometry.frames[index];
+        const passed = (viewport - (offset - travel)) / (viewport + width);
+        const progress = Math.min(Math.max(passed, 0), 1);
+        layer.style.transform = `translateX(${(progress * 2 - 1) * PARALLAX_RANGE}%)`;
+      });
+
+      // The page ends with Ch.4 on screen, so at progress 1 keep its label.
+      if (!self.isActive && self.progress < 1) return rail.set(null);
+      const panel = activeIndex(geometry.panelOffsets, travel + viewport / 2);
+      rail.set(chapterForPanel(panel, panelCounts));
     };
 
-    const scroll = gsap.to(track, {
-      x: () => -distance(),
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        pin: true,
-        scrub: true,
-        start: "top top",
-        end: () => `+=${distance()}`,
-        invalidateOnRefresh: true,
-        onToggle: updateRail,
-        onUpdate: updateRail,
-      },
-    });
-
-    // Parallax: the screenshot drifts against the panel, within its 10% overscan.
-    track.querySelectorAll("[data-parallax]").forEach((layer) => {
-      gsap.fromTo(
-        layer,
-        { xPercent: -8 },
-        {
-          xPercent: 8,
-          ease: "none",
-          scrollTrigger: {
-            trigger: layer.parentElement,
-            containerAnimation: scroll,
-            start: "left right",
-            end: "right left",
-            scrub: true,
-          },
-        },
-      );
+    const scroll = ScrollTrigger.create({
+      trigger: section,
+      pin: true,
+      start: "top top",
+      end: () => `+=${scrollLength(geometry)}`,
+      onRefreshInit: measure,
+      onRefresh: render,
+      onToggle: render,
+      onUpdate: render,
     });
 
     // Keyboard: bring an off-screen panel into view when focus lands inside it.
@@ -116,12 +155,11 @@ export function initChapters(doc = document) {
         panelRect.right <= sectionRect.right + 1;
       if (visible) return;
 
-      const { start, end } = scroll.scrollTrigger;
+      const { start, end } = scroll;
       const offset = trackOffset(panel);
-      lenis.scrollTo(
-        scrollForOffset({ start, end, distance: distance(), offset }),
-        { duration: 0.6 },
-      );
+      lenis.scrollTo(scrollForOffset({ start, end, offset, ...geometry }), {
+        duration: 0.6,
+      });
     };
 
     const stopScroll = () => lenis.stop();
@@ -131,8 +169,11 @@ export function initChapters(doc = document) {
     doc.addEventListener("menu:open", stopScroll);
     doc.addEventListener("menu:close", startScroll);
 
-    // gsap.matchMedia reverts the tweens and ScrollTriggers; this undoes the rest.
+    // gsap.matchMedia reverts the ScrollTrigger and its pin; this undoes the rest.
     return () => {
+      [track, ...captures, ...layers].forEach((element) => {
+        element.style.transform = "";
+      });
       track.removeEventListener("focusin", onFocusIn);
       doc.removeEventListener("menu:open", stopScroll);
       doc.removeEventListener("menu:close", startScroll);
@@ -140,7 +181,7 @@ export function initChapters(doc = document) {
       gsap.ticker.lagSmoothing(500, 33);
       lenis.destroy();
       root.classList.remove(HORIZONTAL_CLASS);
-      setRail(railDefault);
+      rail.set(null);
     };
   }
 
@@ -152,11 +193,11 @@ export function initChapters(doc = document) {
         end: "bottom center",
         onToggle: () => {
           const active = triggers.findIndex((trigger) => trigger.isActive);
-          setRail(active === -1 ? railDefault : chapterLabel(active, total));
+          rail.set(active === -1 ? null : active);
         },
       }),
     );
 
-    return () => setRail(railDefault);
+    return () => rail.set(null);
   }
 }

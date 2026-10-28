@@ -1,0 +1,47 @@
+---
+import { largestSrc, srcsetFor } from "../scripts/captures.js";
+import Todo from "./Todo.astro";
+
+// Boards for a case page, in order. A board with `image: null` is still missing: its frame
+// stays empty and a visible TODO says so.
+const { items, class: className } = Astro.props;
+// Spread so the boards are an array, not `any`, for the typed map below.
+const boards = [...items];
+---
+
+<div class:list={["flex flex-col gap-12", className]}>
+  {boards.map(({ caption, image }) => (
+    <figure>
+      <div class="overflow-hidden rounded-[24px_4px] border border-line bg-surface">
+        {image ? (
+          <img
+            src={largestSrc(image)}
+            srcset={srcsetFor(image)}
+            sizes="100vw"
+            width={image.width}
+            height={image.height}
+            alt={image.alt}
+            loading="lazy"
+            decoding="async"
+            class="block h-auto w-full"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            class="flex aspect-[16/10] items-center justify-center font-mono text-xs tracking-[0.08em] text-ink-subtle"
+          >
+            [ BOARD PENDING ]
+          </div>
+        )}
+      </div>
+      <figcaption class="mt-4 font-mono text-[13px] tracking-[0.08em] text-ink-muted">
+        {caption}
+      </figcaption>
+      {!image && (
+        <div class="mt-3">
+          <Todo note="board image pending" />
+        </div>
+      )}
+    </figure>
+  ))}
+</div>

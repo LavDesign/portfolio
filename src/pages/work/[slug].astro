@@ -1,6 +1,7 @@
 ---
 import { getEntry, render } from "astro:content";
 
+import CaseGallery from "../../components/CaseGallery.astro";
 import Screenshot from "../../components/Screenshot.astro";
 import StatusTag from "../../components/StatusTag.astro";
 import { nextProject, projects } from "../../data/projects.js";
@@ -24,7 +25,7 @@ if (!entry) {
   throw new Error(`Missing case study: src/content/work/${project.slug}.mdx`);
 }
 const { Content } = await render(entry);
-const { role, year, links } = entry.data;
+const { role, year, links, credits } = entry.data;
 ---
 
 <BaseLayout
@@ -86,9 +87,29 @@ const { role, year, links } = entry.data;
           )}
         </dd>
       </div>
+      {credits && (
+        <div class="md:col-span-3">
+          <dt class="text-ink-subtle">CREDITS</dt>
+          <dd class="mt-2">{credits}</dd>
+        </div>
+      )}
     </dl>
 
-    <Screenshot class="mt-12" />
+    {project.gallery ? (
+      <CaseGallery items={project.gallery} class="mt-12" />
+    ) : (
+      <Screenshot
+        image={project.image}
+        screens={project.screens}
+        sizes="100vw"
+        class="mt-12"
+      />
+    )}
+    {project.captureNote && (
+      <p class="mt-3 font-mono text-[13px] tracking-[0.08em] text-ink-subtle">
+        {project.captureNote}
+      </p>
+    )}
 
     <Content />
 

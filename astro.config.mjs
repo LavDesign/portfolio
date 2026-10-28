@@ -12,4 +12,8 @@ export default defineConfig({
   },
 
   integrations: [mdx()],
+
+  devToolbar: {
+    enabled: false,
+  },
 });

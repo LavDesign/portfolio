@@ -22,6 +22,7 @@ const headingId = `project-${project.slug}`;
 <article
   aria-labelledby={headingId}
   data-panel
+  data-pause-screens={project.pauseScreens}
   class="flex flex-col gap-6 horizontal:grid horizontal:h-full horizontal:w-[calc(100vw-4.5rem)] horizontal:grid-cols-[400px_minmax(0,1fr)] horizontal:items-center horizontal:gap-12 horizontal:px-12 horizontal:py-8 xl:horizontal:grid-cols-[460px_minmax(0,1fr)] xl:horizontal:gap-16 xl:horizontal:px-18"
 >
   <div class="flex flex-col items-start gap-3 horizontal:gap-0">
@@ -72,7 +73,7 @@ const headingId = `project-${project.slug}`;
   </div>
 
   <div class="order-first horizontal:order-none">
-    <Screenshot parallax />
+    <Screenshot image={project.image} screens={project.screens} parallax />
 
     <div
       aria-hidden="true"

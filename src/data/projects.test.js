@@ -23,6 +23,33 @@ describe("projects", () => {
     },
   );
 
+  const captures = projects.flatMap((project) => [
+    ...(project.image ? [[project.slug, project.image]] : []),
+    ...(project.screens ?? []).map((screen) => [project.slug, screen]),
+    ...(project.gallery ?? [])
+      .filter((board) => board.image)
+      .map((board) => [project.slug, board.image]),
+  ]);
+
+  it.each(captures)(
+    "%s capture has its size, alt and largest file",
+    (_slug, capture) => {
+      expect(capture.width).toBeGreaterThan(0);
+      expect(capture.height).toBeGreaterThan(0);
+      expect(capture.alt.trim()).not.toBe("");
+      expect(capture.src[capture.width]).toBeDefined();
+    },
+  );
+
+  it("gives every gallery board a caption", () => {
+    for (const project of projects) {
+      for (const board of project.gallery ?? []) {
+        expect(board.caption.trim()).not.toBe("");
+        expect("image" in board).toBe(true);
+      }
+    }
+  });
+
   it("uses unique slugs", () => {
     const slugs = projects.map((project) => project.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
