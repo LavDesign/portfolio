@@ -1,11 +1,16 @@
 ---
+// Brand square for anything the public can open: a live site or a public demo.
+const PUBLIC_STATUSES = ["live", "live-demo"];
 const { status, label } = Astro.props;
 ---
 
 <span class="inline-flex items-center gap-2 font-mono text-xs tracking-[0.08em] uppercase">
   <span
     aria-hidden="true"
-    class:list={["size-1.5", status === "live" ? "bg-brand" : "bg-ink-subtle"]}
+    class:list={[
+      "size-1.5",
+      PUBLIC_STATUSES.includes(status) ? "bg-brand" : "bg-ink-subtle",
+    ]}
   ></span>
   {label}
 </span>
