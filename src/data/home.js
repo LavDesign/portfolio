@@ -5,8 +5,8 @@ export const hero = {
   lead: "UX, frontend and CMS, with 20+ years of experience and AI as a force multiplier. Based in Costa Rica, working remotely.",
   ctaPrimary: { label: "Hire me", href: "/contact?type=hire" },
   ctaSecondary: { label: "Work with me", href: "/contact?type=project" },
-  // Links to #work, the start of Ch.1.
-  scrollHint: "Scroll to see selected work ↓",
+  // Links to #work, the start of Ch.1; the "↓" comes from LinkArrow.
+  scrollHint: "Scroll to see selected work",
 };
 
 export const contact = {

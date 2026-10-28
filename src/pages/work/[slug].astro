@@ -2,6 +2,7 @@
 import { getEntry, render } from "astro:content";
 
 import CaseGallery from "../../components/CaseGallery.astro";
+import LinkArrow from "../../components/LinkArrow.astro";
 import Screenshot from "../../components/Screenshot.astro";
 import StatusTag from "../../components/StatusTag.astro";
 import { nextProject, projects } from "../../data/projects.js";
@@ -76,10 +77,7 @@ const { role, year, links, credits } = entry.data;
                     href={link.href}
                     class="underline decoration-brand underline-offset-4 hover:text-brand-hover"
                   >
-                    {link.label}
-                    {/^https?:/.test(link.href) && (
-                      <span aria-hidden="true">↗</span>
-                    )}
+                    {link.label} <LinkArrow href={link.href} />
                   </a>
                 </li>
               ))}
@@ -121,7 +119,7 @@ const { role, year, links, credits } = entry.data;
     >
       <a href={next.caseUrl} class="group block">
         <span class="block font-mono text-[13px] tracking-[0.08em] text-ink-muted">
-          Next project →
+          Next project <LinkArrow href={next.caseUrl} />
         </span>
         <span class="mt-3 block text-[32px] leading-[1.05] font-bold tracking-[-0.04em] uppercase group-hover:text-ink-muted">
           {next.name}
@@ -131,7 +129,7 @@ const { role, year, links, credits } = entry.data;
         href="/work"
         class="font-mono text-[13px] tracking-[0.08em] underline decoration-brand underline-offset-4 hover:text-brand-hover"
       >
-        All work
+        <LinkArrow href="/work" back /> All work
       </a>
     </nav>
   </article>
