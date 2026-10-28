@@ -64,11 +64,17 @@ import SiteHeader from "./SiteHeader.astro";
             {hero.ctaSecondary.label}
           </Button>
         </div>
+        <!-- scroll-hint.js glides to Ch.1 instead of jumping; the arrow dips 4px on hover and focus. -->
         <a
           href="#work"
-          class="font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase hover:text-ink"
+          class="group font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase hover:text-ink"
+          data-scroll-hint
         >
-          {hero.scrollHint} <LinkArrow href="#work" />
+          {hero.scrollHint}
+          <LinkArrow
+            href="#work"
+            class="inline-block transition-[translate] duration-200 ease-out motion-safe:group-hover:translate-y-1 motion-safe:group-focus-visible:translate-y-1"
+          />
         </a>
       </div>
     </div>
@@ -85,6 +91,8 @@ import SiteHeader from "./SiteHeader.astro";
 
 <script>
   import { initHeroIntro } from "../scripts/hero-intro.js";
+  import { initScrollHint } from "../scripts/scroll-hint.js";
 
   initHeroIntro();
+  initScrollHint();
 </script>

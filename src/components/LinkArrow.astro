@@ -2,7 +2,9 @@
 import { linkArrow } from "../scripts/link-arrow.js";
 
 // The only place text-link arrows come from (see link-arrow.js). Hidden from screen readers.
-const { href, back = false } = Astro.props;
+const { href, back = false, class: className } = Astro.props;
 ---
 
-<span aria-hidden="true">{linkArrow(href, { back })}</span>
+<span aria-hidden="true" class={className}>
+  {linkArrow(href, { back })}
+</span>

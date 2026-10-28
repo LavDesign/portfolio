@@ -25,6 +25,25 @@ const VERTICAL_QUERY = `not all and ${HORIZONTAL_QUERY}`;
 const CAPTURE_PAUSE_SCREENS = 1;
 // Placeholder drift across a panel's pass through the viewport, in % of the layer's width.
 const PARALLAX_RANGE = 8;
+// The hero's scroll hint glides to Ch.1 with Lenis: 1.2s, ease-in-out (cubic).
+const GLIDE = {
+  duration: 1.2,
+  easing: (t) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2),
+};
+
+// Set only while the horizontal layout (and so Lenis) is active.
+let glideToWork = null;
+
+/**
+ * Glides to the start of Ch.1 with the page's Lenis instance and calls onComplete when it
+ * lands. Returns false when Lenis isn't running (below lg or with reduced motion), so the
+ * caller can fall back to native scrolling.
+ */
+export function scrollToWork(onComplete) {
+  if (!glideToWork) return false;
+  glideToWork(onComplete);
+  return true;
+}
 
 export function initChapters(doc = document) {
   const section = doc.querySelector("[data-chapters]");
@@ -162,6 +181,10 @@ export function initChapters(doc = document) {
       });
     };
 
+    // +1px: at exactly `start` the trigger isn't active yet and the rail would keep "© 2026".
+    glideToWork = (onComplete) =>
+      lenis.scrollTo(scroll.start + 1, { ...GLIDE, onComplete });
+
     const stopScroll = () => lenis.stop();
     const startScroll = () => lenis.start();
 
@@ -177,6 +200,7 @@ export function initChapters(doc = document) {
       track.removeEventListener("focusin", onFocusIn);
       doc.removeEventListener("menu:open", stopScroll);
       doc.removeEventListener("menu:close", startScroll);
+      glideToWork = null;
       gsap.ticker.remove(tick);
       gsap.ticker.lagSmoothing(500, 33);
       lenis.destroy();
