@@ -35,6 +35,7 @@ Astro 7 (static) · Tailwind CSS v4 (tokens in src/styles/global.css @theme) · 
 - The logo is an identity: never redraw, rotate or alter it. SVGO only with the safe config (precision 5, no mergePaths), verified pixel by pixel. Ask Luis before any new use of the logo.
 - Source PNG captures live outside the repo (~/Projects/LavDesign/captures/). Only WebP enters the repo, through scripts/process-captures.mjs. Never upscale.
 - No personal data (address, phone, ID, age).
+- Internal documents (case drafts, decision logs, client agreements, passwords, private links) never enter the repo.
 
 ## Design
 
