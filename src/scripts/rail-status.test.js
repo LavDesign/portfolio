@@ -44,6 +44,16 @@ describe("rail status", () => {
     expect(el.hasAttribute("data-active")).toBe(false);
   });
 
+  it("highlights only the digit in brand, 2px larger", () => {
+    const rail = createRailStatus(el, 4);
+    rail.set(0);
+    const slot = el.querySelector("span");
+    expect(slot.textContent).toBe("1");
+    expect(slot.style.color).toBe("var(--color-brand)");
+    expect(slot.style.fontSize).toBe("calc(1em + 2px)");
+    expect(slot.style.lineHeight).toBe("1");
+  });
+
   it("swaps instantly when animations aren't available", () => {
     const rail = createRailStatus(el, 4);
     rail.set(0);

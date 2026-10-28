@@ -17,7 +17,8 @@ const prefersReducedMotion = () =>
 
 /**
  * Drives the rail's "CH.n / total" indicator. set(index) shows a chapter, set(null) restores
- * the element's original text ("© 2026"). Between chapters only the digit rolls; a new change
+ * the element's original text ("© 2026"). The digit is highlighted in brand, 2px larger than
+ * "CH." and "/ total". Between chapters only the digit rolls; a new change
  * mid-roll settles the running one first, so fast scrolling never stacks animations.
  * Not a live region on purpose: announcing every chapter change would be noise.
  */
@@ -45,6 +46,12 @@ export function createRailStatus(el, total) {
     slot = document.createElement("span");
     slot.style.display = "inline-grid";
     slot.style.overflow = "clip";
+    slot.style.color = "var(--color-brand)";
+    slot.style.fontSize = "calc(1em + 2px)";
+    // line-height 1 keeps the larger digit inside the parent's line box, so the text doesn't
+    // shift sideways when the indicator appears; Geist Mono's fixed advance keeps it from
+    // shifting along the line as digits change.
+    slot.style.lineHeight = "1";
     slot.append(digit(index));
     el.replaceChildren("CH.", slot, ` / ${total}`);
     el.dataset.active = "";
