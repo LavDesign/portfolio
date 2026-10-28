@@ -1,9 +1,67 @@
 ---
-// Three 28x2px lines: two ink, the last one brand.
+// Three 28x2px lines: top and middle ink, bottom brand.
+// Experiment (M6c): menu-icon.js flips data-state between "menu" and "close" so the icon
+// morphs into the close icon (only the brand middle line stays) and back. To revert,
+// drop the <style> below, the data attributes and the initMenuIcon() call in BaseLayout.
+const { state = "menu" } = Astro.props;
 ---
 
-<span class="flex flex-col gap-1.5" aria-hidden="true">
-  <span class="h-0.5 w-7 bg-ink"></span>
-  <span class="h-0.5 w-7 bg-ink"></span>
-  <span class="h-0.5 w-7 bg-brand"></span>
+<span
+  class="flex flex-col gap-1.5"
+  aria-hidden="true"
+  data-menu-icon
+  data-state={state}
+>
+  <span class="h-0.5 w-7" data-line="top"></span>
+  <span class="h-0.5 w-7" data-line="middle"></span>
+  <span class="h-0.5 w-7" data-line="bottom"></span>
 </span>
+
+<style>
+  /* Only background-color (the lines' color), transform and opacity are animated. */
+  [data-line] {
+    transition-property: background-color, transform, opacity;
+  }
+
+  /* Back to the menu icon: lines enter (250ms ease-out), then colors swap back (150ms). */
+  [data-state="menu"] [data-line] {
+    transition-duration: 150ms, 250ms, 250ms;
+    transition-timing-function: ease-out;
+    transition-delay: 250ms, 0ms, 0ms;
+  }
+
+  /* To the close icon: colors swap (150ms ease-out), then the outer lines leave (250ms ease-in). */
+  [data-state="close"] [data-line] {
+    transition-duration: 150ms, 250ms, 250ms;
+    transition-timing-function: ease-out, ease-in, ease-in;
+    transition-delay: 0ms, 150ms, 150ms;
+  }
+
+  [data-state="menu"] [data-line="top"],
+  [data-state="menu"] [data-line="middle"],
+  [data-state="close"] [data-line="top"],
+  [data-state="close"] [data-line="bottom"] {
+    background-color: var(--color-ink);
+  }
+
+  [data-state="menu"] [data-line="bottom"],
+  [data-state="close"] [data-line="middle"] {
+    background-color: var(--color-brand);
+  }
+
+  [data-state="close"] [data-line="top"] {
+    transform: translateX(50%);
+    opacity: 0;
+  }
+
+  [data-state="close"] [data-line="bottom"] {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-line] {
+      transition: none;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import MenuLockup from "../assets/brand/lav-lockup-white-notag.svg";
 import { nav, social } from "../data/site.js";
+import MenuIcon from "./MenuIcon.astro";
 
 // Exploration for review: the white lockup in the open menu. To remove it, set this to
 // false (or delete this flag, the import above and the showLockup block).
@@ -28,7 +29,8 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
     data-menu-close
     class="absolute top-[9.5px] right-2 z-10 flex size-11 items-center justify-center md:right-4 lg:top-0 lg:right-auto lg:left-0 lg:size-18 lg:border-r lg:border-b lg:border-line lg:bg-bg"
   >
-    <span aria-hidden="true" class="h-0.5 w-7 bg-brand"></span>
+    <!-- Starts as the menu icon and morphs into the close icon (see menu-icon.js). -->
+    <MenuIcon />
   </button>
 
   <div class="flex min-h-full w-full flex-col bg-surface lg:ml-18 lg:w-[calc(100%-4.5rem)]">
