@@ -1,6 +1,7 @@
 ---
 import { projects } from "../data/projects.js";
 import { formatIndex } from "../scripts/chapter-utils.js";
+import LinkArrow from "./LinkArrow.astro";
 import Screenshot from "./Screenshot.astro";
 import StatusTag from "./StatusTag.astro";
 
@@ -67,8 +68,8 @@ const headingId = `project-${project.slug}`;
       href={project.caseUrl}
       class="mt-2 font-semibold underline decoration-brand decoration-2 underline-offset-[6px] hover:text-brand-hover horizontal:mt-6"
     >
-      Read the case study<span class="sr-only"> about {project.name}</span>
-      <span aria-hidden="true">→</span>
+      Read the case study<span class="sr-only"> about {project.name}</span>{" "}
+      <LinkArrow href={project.caseUrl} />
     </a>
   </div>
 

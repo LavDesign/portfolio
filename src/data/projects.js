@@ -129,7 +129,7 @@ export const projects = [
     status: "demo",
     statusLabel: "Demo, password-protected",
     description:
-      "A premium cigar store on Shopify, designed for Asian buyers first.",
+      "A premium cigar store on Shopify, with buyers in Asia as its first market.",
     tags: ["Shopify", "UX / CRO", "Liquid + Tailwind", "Figma"],
     caseUrl: "/work/global-cigar-express",
     image: {

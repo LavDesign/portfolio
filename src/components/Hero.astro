@@ -1,6 +1,7 @@
 ---
 import { hero } from "../data/home.js";
 import Button from "./Button.astro";
+import LinkArrow from "./LinkArrow.astro";
 import SiteHeader from "./SiteHeader.astro";
 ---
 
@@ -67,7 +68,7 @@ import SiteHeader from "./SiteHeader.astro";
           href="#work"
           class="font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase hover:text-ink"
         >
-          {hero.scrollHint}
+          {hero.scrollHint} <LinkArrow href="#work" />
         </a>
       </div>
     </div>

@@ -1,32 +1,119 @@
 ---
-role: ""
-year: ""
-links: []
+role: "UX/CRO strategy · Design · Shopify development"
+year: "2026"
+links:
+  - label: Demo and code on request
+    href: /contact?type=hire
 ---
 
 import CaseSection from "../../components/CaseSection.astro";
-import Todo from "../../components/Todo.astro";
 
 <CaseSection number="01" title="The problem">
-  <Todo />
+
+The client's store ran on WordPress and depended on external plugins for core e-commerce features. They wanted a more robust store without that dependency, one that could also work as a marketing and sales tool: a functional demo to present the business model to potential buyers and investors. The first target market is Asia (China, Taiwan and Korea), with the rest of the world to follow. The catalog centers on New World cigars from Nicaragua, the Dominican Republic, Honduras and Costa Rica, with Cuba as an aspirational category.
+
 </CaseSection>
 
 <CaseSection number="02" title="My role">
-  <Todo />
+
+I led UX and CRO strategy, designed the experience in Figma, built the Shopify theme, structured the content and documented the business reasoning behind each decision. Logo and brand identity were outside my scope.
+
 </CaseSection>
 
 <CaseSection number="03" title="Process">
-  <Todo />
+
+I started by analyzing a reference store specializing in Cuban cigars and mapping a sitemap. I used the reference to understand the category, not to copy it: it serves a different market with a different model. From wireframes, I explored three visual directions (Heritage Havana, Modern Onyx and Warm Boutique) and chose Modern Onyx: onyx black, warm white and brass gold, with Bodoni Moda for headlines and Inter for text, a restrained, premium feel where the product does the talking. I designed high-fidelity desktop and mobile screens for the homepage, category, product page, cart and checkout. Some concepts stayed as explorations, such as a hero with floating navigation and a scroll-driven "Shop by country" story. I then built the theme in Shopify and refined it through my own testing.
+
 </CaseSection>
 
 <CaseSection number="04" title="Key decisions">
-  <Todo />
+  <ol class="list-decimal space-y-4 pl-6 marker:font-mono marker:text-ink-subtle">
+    <li>
+      <strong>Browse by origin, not by discount.</strong> Navigation is
+      organized by country, brand and vitola. A premium buyer looks for origin
+      first.
+    </li>
+    <li>
+      <strong>Nicaragua leads, Cuba supports.</strong> The homepage puts
+      Nicaragua at the center and Cuba in a secondary band. The "Shop by
+      country" grid uses a 2 + 3 layout with Nicaragua and Cuba larger and on
+      top, because attention concentrates at the top and left of a page (Nielsen
+      Norman Group's eye-tracking research), and what is seen first gets chosen
+      more.
+    </li>
+    <li>
+      <strong>Built for Asia from the type system up.</strong> Bodoni Moda and
+      Inter don't cover Chinese or Korean, so the type stack includes fallback
+      fonts for both. Shopify was also chosen because it supports multiple
+      languages natively, so translations can be added without rebuilding the
+      store.
+    </li>
+    <li>
+      <strong>Shopify with Liquid and Tailwind, not headless.</strong> Fewer
+      moving parts, a native checkout and accounts, and a theme the client can
+      edit and maintain from the theme editor.
+    </li>
+    <li>
+      <strong>Product data the store can grow with.</strong> Cigar attributes
+      (vitola, size, strength, wrapper) live in metafields and hide when empty.
+      Country collections build automatically from tags, so adding a product
+      doesn't require touching code. Filters only appear when they have at least
+      two different values, so buyers never see a filter that does nothing.
+    </li>
+    <li>
+      <strong>A product page for a considered purchase.</strong> A two-column
+      gallery with zoom, a quick line of key data (strength, vitola, size), full
+      specifications, single or box options, and a sticky purchase column on
+      desktop. The cart opens as a side panel on desktop and full screen on
+      mobile.
+    </li>
+    <li>
+      <strong>Trust through honest content.</strong> Tobacco is a regulated,
+      high-trust category. The store includes age verification and styled policy
+      pages, and I removed claims without support: "95+ points" came out, and
+      "guarantees authenticity" became "helps verify authenticity".
+    </li>
+  </ol>
 </CaseSection>
 
 <CaseSection number="05" title="Honest result">
-  <Todo />
+
+GCE works as a complete, navigable store in a password-protected demo environment: a homepage, a category page with the real catalog of 21 products, product pages, a side cart, age verification, styled policies, and the brand applied to checkout and customer accounts. It has not launched and has no real buyers; testimonials and prices are sample content. One known limitation: sorting applies only to the products already loaded on the page. What it demonstrates is strategy, design and theme development working together in a regulated category.
+
 </CaseSection>
 
 <CaseSection number="06" title="What's pending">
-  <Todo />
+
+These are next steps on the client's side, not part of this scope:
+
+  <ul class="list-disc space-y-2 pl-6 marker:text-ink-subtle">
+    <li>A payment processor that accepts tobacco (Shopify Payments doesn't).</li>
+    <li>Legal review, plus minimum-age and returns policies.</li>
+    <li>Translations for the first market (Chinese and Korean), local currency, shipping and payments.</li>
+    <li>Professional product photography.</li>
+    <li>Domain and Shopify plan.</li>
+  </ul>
 </CaseSection>
+
+<CaseSection number="07" title="What I learned">
+  <ul class="list-disc space-y-4 pl-6 marker:text-ink-subtle">
+    <li>
+      <strong>Regulated categories surface dependencies early.</strong> For
+      tobacco, payments and legal review belong at the start of planning, not
+      the end.
+    </li>
+    <li>
+      <strong>A reference is for understanding, not copying.</strong> Deciding
+      not to copy forced me to state why GCE needed a different structure.
+    </li>
+    <li>
+      <strong>A handoff README is part of the product.</strong> Someone else
+      should be able to pick up the theme without me.
+    </li>
+  </ul>
+</CaseSection>
+
+<p class="mt-16 font-mono text-[13px] tracking-[0.08em] text-ink-subtle">
+  Case study for portfolio purposes. Brand names, logos and images belong to
+  their respective owners.
+</p>
