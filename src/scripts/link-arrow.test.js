@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { linkArrow } from "./link-arrow.js";
+import { isExternal, linkArrow } from "./link-arrow.js";
 
 describe("link arrow", () => {
   it("points down for an anchor on the same page", () => {
@@ -16,6 +16,12 @@ describe("link arrow", () => {
   it("points right for another page of the site", () => {
     expect(linkArrow("/work/vetegram")).toBe("→");
     expect(linkArrow("/contact?type=hire")).toBe("→");
+  });
+
+  it("tells external links from internal ones", () => {
+    expect(isExternal("https://www.figma.com/proto/abc")).toBe(true);
+    expect(isExternal("/contact?type=hire")).toBe(false);
+    expect(isExternal("#work")).toBe(false);
   });
 
   it("points left when going back to a list", () => {

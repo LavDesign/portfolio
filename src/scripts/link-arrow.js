@@ -6,6 +6,11 @@
 export function linkArrow(href, { back = false } = {}) {
   if (back) return "←";
   if (href.startsWith("#")) return "↓";
-  if (/^(https?:)?\/\//.test(href) || href.startsWith("mailto:")) return "↗";
+  if (isExternal(href)) return "↗";
   return "→";
+}
+
+/** True for links that leave the site (another origin or mailto:). */
+export function isExternal(href) {
+  return /^(https?:)?\/\//.test(href) || href.startsWith("mailto:");
 }
