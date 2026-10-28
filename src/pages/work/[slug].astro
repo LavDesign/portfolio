@@ -8,6 +8,7 @@ import StatusTag from "../../components/StatusTag.astro";
 import { nextProject, projects } from "../../data/projects.js";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { formatIndex } from "../../scripts/chapter-utils.js";
+import { isExternal } from "../../scripts/link-arrow.js";
 
 // One page per project in projects.js, which owns the order and the card data.
 export function getStaticPaths() {
@@ -73,11 +74,20 @@ const { role, year, links, credits } = entry.data;
             <ul class="flex flex-wrap gap-x-6 gap-y-2">
               {links.map((link) => (
                 <li>
+                  {/* External links open in a new tab; the hidden note tells screen readers. */}
                   <a
                     href={link.href}
                     class="underline decoration-brand underline-offset-4 hover:text-brand-hover"
+                    {...(isExternal(link.href) && {
+                      target: "_blank",
+                      rel: "noopener",
+                    })}
                   >
-                    {link.label} <LinkArrow href={link.href} />
+                    {link.label}
+                    {isExternal(link.href) && (
+                      <span class="sr-only"> (opens in a new tab)</span>
+                    )}{" "}
+                    <LinkArrow href={link.href} />
                   </a>
                 </li>
               ))}
