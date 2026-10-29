@@ -46,8 +46,8 @@ Astro 7 (static) · Tailwind CSS v4 (tokens in src/styles/global.css @theme) · 
 
 ## Status
 
-Done: M1–M6e (setup, shell, hero, horizontal chapters, Work and case template, About and Contact, polish, identity, captures, menu motion, chapter indicator).
+Done: M1–M6e (setup, shell, hero, horizontal chapters, Work and case template, About and Contact, polish, identity, captures, menu motion, chapter indicator), real contact form (Formspree, tested locally) with an animated success dialog (logo use approved by Luis).
 Case study content: all 4 cases ready.
 Pending: re-export the PES capture without sample data, and a new GCE capture taken in an incognito window.
-Next: real contact form (Formspree), M7 launch on Vercel (site URL, canonical, sitemap, absolute og:image, README, ruleset, Lighthouse on the live URL).
+Next: M7 launch on Vercel (PUBLIC_FORMSPREE_ID env var, site URL, canonical, sitemap, absolute og:image, README, ruleset, Lighthouse on the live URL).
 Update this section in every milestone PR.

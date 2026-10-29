@@ -58,10 +58,15 @@ function readValues(form) {
 /**
  * Validates and submits the contact form. Sends to Formspree when the form has
  * a data-endpoint; otherwise runs in demo mode and never claims it was sent.
+ * `onSuccess` runs only after Formspree confirms the message was sent.
  */
 export function initContactForm(
   form,
-  { fetchImpl = globalThis.fetch, search = window.location.search } = {},
+  {
+    fetchImpl = globalThis.fetch,
+    search = window.location.search,
+    onSuccess = () => {},
+  } = {},
 ) {
   const status = form.querySelector("[data-form-status]");
   const submit = form.querySelector('[type="submit"]');
@@ -129,9 +134,11 @@ export function initContactForm(
       setStatus(STATUS.success);
     } catch {
       setStatus(STATUS.error);
+      return;
     } finally {
       submit.disabled = false;
     }
+    onSuccess();
   };
 
   form.addEventListener("submit", onSubmit);

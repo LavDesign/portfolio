@@ -26,6 +26,12 @@ export const contact = {
     },
   ],
   availability: "Working remotely.",
+  // Dialog shown on /contact once Formspree confirms the message was sent.
+  success: {
+    title: "Message sent.",
+    text: "Thanks. I'll get back to you soon.",
+    close: "Close",
+  },
 };
 
 // Ch.1 Selected work, Ch.2 Twenty years, Ch.3 How I work with AI, Ch.4 Contact.

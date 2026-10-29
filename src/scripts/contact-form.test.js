@@ -167,4 +167,44 @@ describe("initContactForm", () => {
     );
     expect(status()).toBe(STATUS.success);
   });
+
+  it("calls onSuccess and resets the form only after Formspree confirms", async () => {
+    const onSuccess = vi.fn();
+    const form = render("https://formspree.io/f/test");
+    initContactForm(form, { fetchImpl, search: "", onSuccess });
+    fill(form, valid);
+    await submit(form);
+    await Promise.resolve();
+
+    expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(form.elements.name.value).toBe("");
+    expect(form.elements.message.value).toBe("");
+  });
+
+  it("never calls onSuccess in demo mode", async () => {
+    const onSuccess = vi.fn();
+    const form = render();
+    initContactForm(form, { fetchImpl, search: "", onSuccess });
+    fill(form, valid);
+    await submit(form);
+
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(status()).toBe(STATUS.demo);
+  });
+
+  it.each([
+    ["a non-OK response", () => Promise.resolve({ ok: false, status: 422 })],
+    ["a network error", () => Promise.reject(new Error("offline"))],
+  ])("never calls onSuccess on %s and keeps the message", async (_, impl) => {
+    const onSuccess = vi.fn();
+    const form = render("https://formspree.io/f/test");
+    initContactForm(form, { fetchImpl: vi.fn(impl), search: "", onSuccess });
+    fill(form, valid);
+    await submit(form);
+    await Promise.resolve();
+
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(status()).toBe(STATUS.error);
+    expect(form.elements.message.value).toBe(valid.message);
+  });
 });
