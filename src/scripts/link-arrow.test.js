@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { isExternal, linkArrow } from "./link-arrow.js";
+import { isExternal, linkArrow, opensInNewTab } from "./link-arrow.js";
 
 describe("link arrow", () => {
   it("points down for an anchor on the same page", () => {
@@ -22,6 +22,12 @@ describe("link arrow", () => {
     expect(isExternal("https://www.figma.com/proto/abc")).toBe(true);
     expect(isExternal("/contact?type=hire")).toBe(false);
     expect(isExternal("#work")).toBe(false);
+  });
+
+  it("opens other sites in a new tab, but not mailto or internal links", () => {
+    expect(opensInNewTab("https://github.com/LavDesign")).toBe(true);
+    expect(opensInNewTab("mailto:lavdesign.luis@gmail.com")).toBe(false);
+    expect(opensInNewTab("/contact")).toBe(false);
   });
 
   it("points left when going back to a list", () => {

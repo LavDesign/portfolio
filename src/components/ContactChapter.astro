@@ -2,6 +2,7 @@
 import { contact } from "../data/home.js";
 import { social } from "../data/site.js";
 import Button from "./Button.astro";
+import SocialLink from "./SocialLink.astro";
 ---
 
 <section
@@ -54,9 +55,7 @@ import Button from "./Button.astro";
       <ul class="flex flex-wrap gap-6 text-base text-ink">
         {social.map((link) => (
           <li>
-            <a href={link.href} class="hover:text-ink-muted">
-              {link.label}
-            </a>
+            <SocialLink {...link} class="hover:text-ink-muted" />
           </li>
         ))}
       </ul>

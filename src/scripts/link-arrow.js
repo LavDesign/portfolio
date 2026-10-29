@@ -12,5 +12,10 @@ export function linkArrow(href, { back = false } = {}) {
 
 /** True for links that leave the site (another origin or mailto:). */
 export function isExternal(href) {
-  return /^(https?:)?\/\//.test(href) || href.startsWith("mailto:");
+  return opensInNewTab(href) || href.startsWith("mailto:");
+}
+
+/** Links to another origin open in a new tab; mailto: hands off to the mail app instead. */
+export function opensInNewTab(href) {
+  return /^(https?:)?\/\//.test(href);
 }

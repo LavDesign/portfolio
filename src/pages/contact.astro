@@ -1,8 +1,8 @@
 ---
 import Button from "../components/Button.astro";
-import Todo from "../components/Todo.astro";
+import SocialLink from "../components/SocialLink.astro";
 import { contact } from "../data/home.js";
-import { social } from "../data/site.js";
+import { email, social } from "../data/site.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { MESSAGE_MIN_LENGTH } from "../scripts/contact-form.js";
 
@@ -159,14 +159,16 @@ const error = "mt-2 text-sm text-brand";
       <aside aria-label="Other ways to reach me" class="flex flex-col gap-6">
         <ul class="flex flex-col gap-3 text-base">
           {social.map((link) => (
-            <li>
-              <a href={link.href} class="hover:text-ink-muted">
-                {link.label}
-              </a>
+            <li class="flex flex-wrap items-baseline gap-x-3">
+              <SocialLink {...link} class="hover:text-ink-muted" />
+              {link.href.startsWith("mailto:") && (
+                <span class="font-mono text-[13px] tracking-[0.08em] text-ink-muted select-all">
+                  {email}
+                </span>
+              )}
             </li>
           ))}
         </ul>
-        <Todo note="real links pending" />
         <p class="font-mono text-[13px] tracking-[0.08em] text-ink-muted uppercase">
           {contact.availability}
         </p>
