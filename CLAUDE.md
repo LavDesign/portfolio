@@ -46,8 +46,8 @@ Astro 7 (static) · Tailwind CSS v4 (tokens in src/styles/global.css @theme) · 
 
 ## Status
 
-Done: M1–M6e (setup, shell, hero, horizontal chapters, Work and case template, About and Contact, polish, identity, captures, menu motion, chapter indicator), real contact form (Formspree, tested locally) with an animated success dialog (logo use approved by Luis).
+Done: M1–M6e (setup, shell, hero, horizontal chapters, Work and case template, About and Contact, polish, identity, captures, menu motion, chapter indicator), real contact form (Formspree, tested locally) with an animated success dialog (logo use approved by Luis), identity: Luis Aguilar Vargas named as the person behind LAV Design (hero eyebrow, About, rail, titles, descriptions, Person JSON-LD; name data in src/data/site.js).
 Case study content: all 4 cases ready.
 Pending: re-export the PES capture without sample data, and a new GCE capture taken in an incognito window.
-Next: M7 launch on Vercel (PUBLIC_FORMSPREE_ID env var, site URL, canonical, sitemap, absolute og:image, README, ruleset, Lighthouse on the live URL).
+Next: M7 launch on Vercel (PUBLIC_FORMSPREE_ID env var, Person JSON-LD url, site URL, canonical, sitemap, absolute og:image, README, ruleset, Lighthouse on the live URL).
 Update this section in every milestone PR.

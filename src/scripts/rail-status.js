@@ -17,7 +17,7 @@ const prefersReducedMotion = () =>
 
 /**
  * Drives the rail's "CH.n / total" indicator. set(index) shows a chapter, set(null) restores
- * the element's original text ("© 2026"). The digit is highlighted in brand, 2px larger than
+ * the element's original text ("© 2026 Luis Aguilar Vargas"). The digit is highlighted in brand, 2px larger than
  * "CH." and "/ total". Between chapters only the digit rolls; a new change
  * mid-roll settles the running one first, so fast scrolling never stacks animations.
  * Not a live region on purpose: announcing every chapter change would be noise.

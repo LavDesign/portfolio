@@ -1,13 +1,14 @@
 ---
 import ProjectCard from "../components/ProjectCard.astro";
 import { projects } from "../data/projects.js";
+import { ownerWithBrand, pageTitle } from "../data/site.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatCount } from "../scripts/chapter-utils.js";
 ---
 
 <BaseLayout
-  title="Work — LAV Design"
-  description="Selected work by LAV Design."
+  title={pageTitle("Work")}
+  description={`Selected work by ${ownerWithBrand}.`}
 >
   <div class="px-4 py-16 md:px-6 lg:px-12 xl:px-18">
     <header class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">

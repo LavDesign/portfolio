@@ -1,5 +1,6 @@
 ---
 import { hero } from "../data/home.js";
+import { owner } from "../data/site.js";
 import Button from "./Button.astro";
 import LinkArrow from "./LinkArrow.astro";
 import SiteHeader from "./SiteHeader.astro";
@@ -20,16 +21,24 @@ import SiteHeader from "./SiteHeader.astro";
   <!-- Same horizontal grid as SiteHeader and the menu overlay. -->
   <div class="flex flex-1 flex-col gap-12 px-4 py-10 md:px-6 lg:gap-16 lg:px-12 xl:px-18">
     <div class="flex flex-col gap-6 lg:my-auto lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-      <h1
-        aria-label={hero.titleWords.join(" ")}
-        class="text-[clamp(54px,10.5vw,152px)] leading-[0.86] font-bold tracking-[-0.05em] uppercase"
-      >
-        <span class="block" aria-hidden="true" data-hero-title>
-          {hero.titleWords.map((word) => (
-            <span class="block">{word}</span>
-          ))}
-        </span>
-      </h1>
+      <div>
+        <p
+          class="mb-6 font-mono text-[13px] tracking-[0.08em] text-brand uppercase"
+          data-hero-fade
+        >
+          {owner.name} — {owner.brand}
+        </p>
+        <h1
+          aria-label={hero.titleWords.join(" ")}
+          class="text-[clamp(54px,10.5vw,152px)] leading-[0.86] font-bold tracking-[-0.05em] uppercase"
+        >
+          <span class="block" aria-hidden="true" data-hero-title>
+            {hero.titleWords.map((word) => (
+              <span class="block">{word}</span>
+            ))}
+          </span>
+        </h1>
+      </div>
 
       <div class="flex items-center gap-3 lg:flex-col lg:items-start lg:gap-4 lg:pb-3">
         <span class="h-[3px] w-8 bg-brand lg:h-1 lg:w-16" data-hero-fade></span>

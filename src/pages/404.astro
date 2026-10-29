@@ -1,10 +1,11 @@
 ---
 import LinkArrow from "../components/LinkArrow.astro";
+import { pageTitle } from "../data/site.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
-  title="Page not found — LAV Design"
+  title={pageTitle("Page not found")}
   description="This page doesn't exist."
   noindex
 >

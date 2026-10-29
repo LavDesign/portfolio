@@ -2,7 +2,7 @@ export const hero = {
   titleWords: ["Digital", "Experience", "Builder"],
   stack: ["UX", "FRONTEND", "CMS"],
   statement: "I design the experience, then build it.",
-  lead: "UX, frontend and CMS, with 20+ years of experience and AI as a force multiplier. Based in Costa Rica, working remotely.",
+  lead: "UX, frontend and CMS, with 20+ years of experience, using AI to extend what I can make. Based in Costa Rica, working remotely.",
   ctaPrimary: { label: "Hire me", href: "/contact?type=hire" },
   ctaSecondary: { label: "Work with me", href: "/contact?type=project" },
   // Links to #work, the start of Ch.1; the "↓" comes from LinkArrow.
