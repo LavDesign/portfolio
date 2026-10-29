@@ -5,9 +5,14 @@ export const nav = [
   { number: "04.", label: "Contact", href: "/contact" },
 ];
 
-// TODO: real social links are pending. Replace each "#" once the addresses are confirmed.
+// Shown as text on /contact so it can be copied.
+export const email = "lavdesign.luis@gmail.com";
+
 export const social = [
-  { label: "Email", href: "#" },
-  { label: "LinkedIn", href: "#" },
-  { label: "GitHub", href: "#" },
+  { label: "Email", href: `mailto:${email}` },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/luis-aguilar-33b83027/",
+  },
+  { label: "GitHub", href: "https://github.com/LavDesign" },
 ];

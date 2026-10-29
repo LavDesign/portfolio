@@ -1,0 +1,17 @@
+---
+import { opensInNewTab } from "../scripts/link-arrow.js";
+
+// Social links are fixed navigation, so no arrow (see link-arrow.js). LinkedIn and GitHub open
+// in a new tab and say so to screen readers; mailto: hands off to the mail app.
+const { href, label, class: className } = Astro.props;
+const newTab = opensInNewTab(href);
+---
+
+<a
+  href={href}
+  class={className}
+  {...(newTab && { target: "_blank", rel: "noopener" })}
+>
+  {label}
+  {newTab && <span class="sr-only"> (opens in a new tab)</span>}
+</a>

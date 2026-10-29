@@ -1,6 +1,7 @@
 ---
 import Lockup from "../assets/brand/lav-lockup-dark-notag.svg";
 import { social } from "../data/site.js";
+import SocialLink from "./SocialLink.astro";
 
 // In normal flow (not fixed). BaseLayout renders it on every page; on the Home the Hero
 // renders it as its top row instead, so it scrolls away with the hero.
@@ -17,9 +18,7 @@ import { social } from "../data/site.js";
   <ul class="flex gap-6 text-base text-ink">
     {social.map((link) => (
       <li>
-        <a href={link.href} class="hover:text-ink-muted">
-          {link.label}
-        </a>
+        <SocialLink {...link} class="hover:text-ink-muted" />
       </li>
     ))}
   </ul>

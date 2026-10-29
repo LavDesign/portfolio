@@ -2,6 +2,7 @@
 import MenuLockup from "../assets/brand/lav-lockup-white-notag.svg";
 import { nav, social } from "../data/site.js";
 import MenuIcon from "./MenuIcon.astro";
+import SocialLink from "./SocialLink.astro";
 
 // Exploration for review: the white lockup in the open menu. To remove it, set this to
 // false (or delete this flag, the import above and the showLockup block).
@@ -100,12 +101,10 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
     <ul class="flex shrink-0 flex-wrap justify-end gap-x-6 gap-y-2 px-4 pb-8 text-base text-ink md:px-6 lg:px-12 xl:px-18">
       {social.map((link) => (
         <li>
-          <a
-            href={link.href}
+          <SocialLink
+            {...link}
             class="inline-flex min-h-11 items-center hover:text-ink-muted"
-          >
-            {link.label}
-          </a>
+          />
         </li>
       ))}
     </ul>
