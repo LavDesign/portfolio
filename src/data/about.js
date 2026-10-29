@@ -1,8 +1,8 @@
+import { owner } from "./site.js";
 import { timelineClosing } from "./timeline.js";
 
 export const about = {
-  story:
-    "I started as a graphic designer in 2006. Over twenty years I moved into web design, front-end development and CMS work, building websites, AEM components, marketing emails and campaigns. Today I design digital experiences and build them, with AI as a force multiplier.",
+  story: `I'm ${owner.name}. ${owner.brand} is the name I work under — LAV stands for my initials. I started as a graphic designer in 2006. Over twenty years I moved into web design, front-end development and CMS work, building websites, AEM components, marketing emails and campaigns. Today I design digital experiences and build them, using AI to extend what I can make.`,
   skills: [
     {
       title: "Email and marketing technology",

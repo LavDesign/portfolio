@@ -57,7 +57,7 @@ export function initChapters(doc = document) {
     (chapter) => chapter.querySelectorAll("[data-panel]").length,
   );
   const total = Number(section.dataset.chapterTotal);
-  // set(index) shows "CH.n / total"; set(null) restores "© 2026".
+  // set(index) shows "CH.n / total"; set(null) restores "© 2026 Luis Aguilar Vargas".
   const rail = createRailStatus(doc.querySelector("[data-rail-status]"), total);
 
   const mm = gsap.matchMedia();
@@ -181,7 +181,7 @@ export function initChapters(doc = document) {
       });
     };
 
-    // +1px: at exactly `start` the trigger isn't active yet and the rail would keep "© 2026".
+    // +1px: at exactly `start` the trigger isn't active yet and the rail would keep "© 2026 …".
     glideToWork = (onComplete) =>
       lenis.scrollTo(scroll.start + 1, { ...GLIDE, onComplete });
 

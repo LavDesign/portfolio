@@ -3,7 +3,7 @@ import SuccessLockup from "../assets/brand/lav-lockup-dark.svg";
 import Button from "../components/Button.astro";
 import SocialLink from "../components/SocialLink.astro";
 import { contact } from "../data/home.js";
-import { email, social } from "../data/site.js";
+import { email, ownerWithBrand, pageTitle, social } from "../data/site.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { MESSAGE_MIN_LENGTH } from "../scripts/contact-form.js";
 
@@ -18,8 +18,8 @@ const error = "mt-2 text-sm text-brand";
 ---
 
 <BaseLayout
-  title="Contact — LAV Design"
-  description="Get in touch with LAV Design."
+  title={pageTitle("Contact")}
+  description={`Get in touch with ${ownerWithBrand}.`}
 >
   <article class="px-4 py-16 md:px-6 lg:px-12 xl:px-18">
     <header>

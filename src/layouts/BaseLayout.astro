@@ -12,6 +12,7 @@ import MenuOverlay from "../components/MenuOverlay.astro";
 import RailNav from "../components/RailNav.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import TopBar from "../components/TopBar.astro";
+import { owner } from "../data/site.js";
 
 // `siteHeader={false}` lets a page place SiteHeader itself (the Home puts it inside the hero).
 const { title, description, noindex = false, siteHeader = true } = Astro.props;
@@ -35,7 +36,7 @@ const { title, description, noindex = false, siteHeader = true } = Astro.props;
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="LAV Design — Digital Experience Builder"
+      content={`${owner.brand} — ${owner.jobTitle}`}
     />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -58,6 +59,7 @@ const { title, description, noindex = false, siteHeader = true } = Astro.props;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body class="min-h-dvh">
     <a

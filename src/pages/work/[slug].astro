@@ -6,6 +6,7 @@ import LinkArrow from "../../components/LinkArrow.astro";
 import Screenshot from "../../components/Screenshot.astro";
 import StatusTag from "../../components/StatusTag.astro";
 import { nextProject, projects } from "../../data/projects.js";
+import { ownerWithBrand, pageTitle } from "../../data/site.js";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { formatIndex } from "../../scripts/chapter-utils.js";
 import { opensInNewTab } from "../../scripts/link-arrow.js";
@@ -31,8 +32,8 @@ const { role, year, links, credits } = entry.data;
 ---
 
 <BaseLayout
-  title={`${project.name} — LAV Design`}
-  description={project.description}
+  title={pageTitle(project.name)}
+  description={`Case study by ${ownerWithBrand}. ${project.description}`}
 >
   <article class="px-4 py-16 md:px-6 lg:px-12 xl:px-18">
     <header>

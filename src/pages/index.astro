@@ -1,14 +1,25 @@
 ---
 import Chapters from "../components/Chapters.astro";
 import Hero from "../components/Hero.astro";
+import {
+  ownerWithBrand,
+  owner,
+  pageTitle,
+  personSchema,
+} from "../data/site.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
   siteHeader={false}
-  title="LAV Design"
-  description="Portfolio of LAV Design (Luis Aguilar Vargas), Digital Experience Builder."
+  title={pageTitle()}
+  description={`Portfolio of ${ownerWithBrand}, ${owner.jobTitle}.`}
 >
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(personSchema)}
+  />
   <Hero />
   <Chapters />
 </BaseLayout>

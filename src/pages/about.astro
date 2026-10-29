@@ -6,14 +6,12 @@ import Todo from "../components/Todo.astro";
 import { about } from "../data/about.js";
 import { ai } from "../data/ai.js";
 import { hero } from "../data/home.js";
+import { ownerWithBrand, pageTitle } from "../data/site.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatIndex } from "../scripts/chapter-utils.js";
 ---
 
-<BaseLayout
-  title="About — LAV Design"
-  description="About LAV Design (Luis Aguilar Vargas)."
->
+<BaseLayout title={pageTitle("About")} description={`About ${ownerWithBrand}.`}>
   <article class="px-4 py-16 md:px-6 lg:px-12 xl:px-18">
     <header>
       <p class="font-mono text-[13px] tracking-[0.08em] text-brand">ABOUT</p>
