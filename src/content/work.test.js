@@ -14,7 +14,7 @@ const SECTIONS = [
   "Process",
   "Key decisions",
   "Honest result",
-  "What's pending",
+  "What’s pending",
   "What I learned",
 ];
 

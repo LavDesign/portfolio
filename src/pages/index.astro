@@ -8,6 +8,8 @@ import {
   personSchema,
 } from "../data/site.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const schema = JSON.stringify(personSchema(Astro.site?.href));
 ---
 
 <BaseLayout
@@ -15,11 +17,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   title={pageTitle()}
   description={`Portfolio of ${ownerWithBrand}, ${owner.jobTitle}.`}
 >
-  <script
-    slot="head"
-    type="application/ld+json"
-    set:html={JSON.stringify(personSchema)}
-  />
+  <script slot="head" type="application/ld+json" set:html={schema} />
   <Hero />
   <Chapters />
 </BaseLayout>

@@ -6,8 +6,8 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const STATUS = {
   sending: "Sending…",
   success: "Thanks, your message was sent.",
-  error: "Something went wrong and your message wasn't sent. Please try again.",
-  demo: "Demo mode: this form doesn't send messages yet.",
+  error: "Something went wrong and your message wasn’t sent. Please try again.",
+  demo: "Demo mode: this form doesn’t send messages yet.",
 };
 
 /** Field errors for the contact form. An empty object means it's valid. */

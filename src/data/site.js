@@ -32,15 +32,18 @@ export const social = [
   { label: "GitHub", href: "https://github.com/LavDesign" },
 ];
 
-// JSON-LD for the Home. No address, phone or location on purpose.
-// TODO (M7): add `url` once the production domain is set.
-export const personSchema = {
+/**
+ * JSON-LD for the Home. `url` is the site URL (Astro.site). No address, phone or location
+ * on purpose.
+ */
+export const personSchema = (url) => ({
   "@context": "https://schema.org",
   "@type": "Person",
   name: owner.name,
+  url,
   alternateName: owner.brand,
   jobTitle: owner.jobTitle,
   sameAs: social
     .filter((link) => ["LinkedIn", "GitHub"].includes(link.label))
     .map((link) => link.href),
-};
+});

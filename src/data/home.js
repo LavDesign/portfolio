@@ -10,11 +10,11 @@ export const hero = {
 };
 
 export const contact = {
-  title: "Let's build something.",
+  title: "Let’s build something.",
   doors: [
     {
       title: "Hiring?",
-      text: "I'm open to remote roles in UX engineering, design engineering and digital experience.",
+      text: "I’m open to remote roles in UX engineering, design engineering and digital experience.",
       cta: hero.ctaPrimary,
       variant: "primary",
     },
@@ -29,7 +29,7 @@ export const contact = {
   // Dialog shown on /contact once Formspree confirms the message was sent.
   success: {
     title: "Message sent.",
-    text: "Thanks. I'll get back to you soon.",
+    text: "Thanks. I’ll get back to you soon.",
     close: "Close",
   },
 };
