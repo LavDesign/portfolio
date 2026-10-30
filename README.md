@@ -60,7 +60,20 @@ Versions are the ones installed from `package-lock.json`. Node.js 24 (see [`.nvm
 
 ## Quality
 
-<!-- TODO: Lighthouse results on the live URL (M7, part 3). -->
+Lighthouse 12.8.2 on the live site (https://lavdesign.vercel.app), median of 3 runs per page and device. Scores are performance / accessibility / best practices / SEO.
+
+| Page             | Mobile                             | Desktop                            |
+| ---------------- | ---------------------------------- | ---------------------------------- |
+| `/`              | 99 / 100 / 100 / 100 — LCP 1.58 s  | 100 / 100 / 100 / 100 — LCP 0.39 s |
+| `/work`          | 100 / 100 / 100 / 100 — LCP 1.27 s | 99 / 100 / 100 / 100 — LCP 0.90 s  |
+| `/work/vetegram` | 100 / 100 / 100 / 100 — LCP 1.29 s | 100 / 100 / 100 / 100 — LCP 0.64 s |
+| `/about`         | 100 / 100 / 100 / 100 — LCP 1.24 s | 100 / 100 / 100 / 100 — LCP 0.33 s |
+| `/contact`       | 100 / 100 / 100 / 100 — LCP 1.40 s | 100 / 100 / 100 / 100 — LCP 0.31 s |
+
+- **axe-core 4.14** (WCAG 2.0/2.1/2.2 A + AA, the same 5 pages at 375 and 1280 px): 0 violations.
+- **117 tests** with Vitest and jsdom for the menu, chapter indicator, contact form, success dialog, content data and case study structure.
+- **CI** on every pull request and every push to `main`: format check, lint, `astro check`, tests and build ([`ci.yml`](.github/workflows/ci.yml)).
+- **Protected `main`:** changes land only through a pull request with a passing CI check; force pushes and deletion are blocked.
 
 ## Getting started
 
