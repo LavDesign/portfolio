@@ -1,5 +1,5 @@
 export const ai = {
-  intro: "AI speeds up the work. It doesn't make the decisions.",
+  intro: "AI speeds up the work. It doesn’t make the decisions.",
   principles: [
     {
       title: "I decide.",

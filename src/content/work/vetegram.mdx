@@ -32,8 +32,8 @@ I split the work into milestones, ten pull requests in total, each on its own br
   <ol class="list-decimal space-y-4 pl-6 marker:font-mono marker:text-ink-subtle">
     <li>
       <strong>Keep the brand, fix the contrast.</strong> Instead of changing
-      Vetegram's palette, I changed text colors: menu text became dark instead
-      of white on the brand's sky blue (about 2:1 before), and the contact box
+      Vetegram’s palette, I changed text colors: menu text became dark instead
+      of white on the brand’s sky blue (about 2:1 before), and the contact box
       went from 50% to 85% opacity, so text meets WCAG AA in the original
       colors.
     </li>
@@ -60,13 +60,13 @@ I split the work into milestones, ten pull requests in total, each on its own br
       0.89 MB, including the hero photos the original loaded from Unsplash.
     </li>
     <li>
-      <strong>A form that can't send by accident.</strong> It validates inline,
-      blocks spam with a honeypot, and only sends through Formspree when it's
+      <strong>A form that can’t send by accident.</strong> It validates inline,
+      blocks spam with a honeypot, and only sends through Formspree when it’s
       configured, so the public demo never sends messages.
     </li>
     <li>
       <strong>Design tokens in one place.</strong> All brand tokens live in
-      Tailwind v4's <code>@theme</code>, in CSS: one source of truth, with no
+      Tailwind v4’s <code>@theme</code>, in CSS: one source of truth, with no
       JavaScript config.
     </li>
   </ol>
@@ -74,11 +74,11 @@ I split the work into milestones, ten pull requests in total, each on its own br
 
 <CaseSection number="05" title="Honest result">
 
-Measured with Lighthouse (median of 3 runs on the production build), mobile performance went from 86 to 93 and LCP from 4.1 s to 3.0 s; best practices and SEO reached 100, and accessibility stayed at 100. axe-core found 1 serious violation before and 0 after. The site has 14 tests and runs CI on every pull request. A demo is live on Vercel; Vetegram hasn't launched the site yet, and the contact form is in demo mode, so it doesn't send messages. Mobile LCP is now limited by client-side rendering.
+Measured with Lighthouse (median of 3 runs on the production build), mobile performance went from 86 to 93 and LCP from 4.1 s to 3.0 s; best practices and SEO reached 100, and accessibility stayed at 100. axe-core found 1 serious violation before and 0 after. The site has 14 tests and runs CI on every pull request. A demo is live on Vercel; Vetegram hasn’t launched the site yet, and the contact form is in demo mode, so it doesn’t send messages. Mobile LCP is now limited by client-side rendering.
 
 </CaseSection>
 
-<CaseSection number="06" title="What's pending">
+<CaseSection number="06" title="What’s pending">
   <ul class="list-disc space-y-2 pl-6 marker:text-ink-subtle">
     <li>Turn on Formspree in production.</li>
     <li>
@@ -86,7 +86,7 @@ Measured with Lighthouse (median of 3 runs on the production build), mobile perf
       repeat Grooming and Marketplace, as in the original.
     </li>
     <li>Real social profile URLs (the original used generic ones).</li>
-    <li>Replace the photos whose source isn't confirmed.</li>
+    <li>Replace the photos whose source isn’t confirmed.</li>
     <li>Prerender the page to lower mobile LCP.</li>
   </ul>
 </CaseSection>
@@ -94,10 +94,10 @@ Measured with Lighthouse (median of 3 runs on the production build), mobile perf
 <CaseSection number="07" title="What I learned">
   <ul class="list-disc space-y-4 pl-6 marker:text-ink-subtle">
     <li>
-      <strong>Directing AI still needs a designer's eye.</strong> Reviewing
+      <strong>Directing AI still needs a designer’s eye.</strong> Reviewing
       every milestone in the browser, I caught what the implementation missed: a
       pause button that seemed to do nothing, a missing pointer cursor, an
-      abrupt hover, and slider dots that didn't match the number of cards.
+      abrupt hover, and slider dots that didn’t match the number of cards.
     </li>
     <li>
       <strong>Simpler beats clever.</strong> Removing autoplay was better for
@@ -108,7 +108,7 @@ Measured with Lighthouse (median of 3 runs on the production build), mobile perf
       reached AA without touching the palette.
     </li>
     <li>
-      <strong>Motion principles work on the web.</strong> The cat's jump uses
+      <strong>Motion principles work on the web.</strong> The cat’s jump uses
       anticipation, stretch and squash, and every animation respects
       reduced-motion settings.
     </li>

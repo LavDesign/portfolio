@@ -15,22 +15,25 @@ describe("pageTitle", () => {
 });
 
 describe("personSchema", () => {
-  it("names the person and links LinkedIn and GitHub", () => {
-    expect(personSchema).toMatchObject({
+  const schema = personSchema("https://example.com/");
+
+  it("names the person and links the site, LinkedIn and GitHub", () => {
+    expect(schema).toMatchObject({
       "@type": "Person",
       name: owner.name,
       alternateName: "LAV Design",
       jobTitle: "Digital Experience Builder",
+      url: "https://example.com/",
     });
     const hrefs = social
       .filter((link) => link.label !== "Email")
       .map((link) => link.href);
-    expect(personSchema.sameAs).toEqual(hrefs);
+    expect(schema.sameAs).toEqual(hrefs);
   });
 
   it("has no contact or location data", () => {
     for (const key of ["address", "telephone", "email", "homeLocation"]) {
-      expect(personSchema).not.toHaveProperty(key);
+      expect(schema).not.toHaveProperty(key);
     }
   });
 });
