@@ -109,6 +109,27 @@ describe("menu", () => {
     expect(document.activeElement).toBe(rail);
   });
 
+  it("marks a tap or click open so the focus ring stays hidden", () => {
+    const rail = document.getElementById("rail");
+    rail.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 }));
+
+    expect(dialog().hasAttribute("data-pointer-open")).toBe(true);
+    expect(document.activeElement).toBe(document.querySelector('[href="/"]'));
+
+    dialog().dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Tab", bubbles: true }),
+    );
+    expect(dialog().hasAttribute("data-pointer-open")).toBe(false);
+  });
+
+  it("keeps the focus ring when the keyboard opens the menu", () => {
+    const rail = document.getElementById("rail");
+    rail.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 0 }));
+
+    expect(dialog().hasAttribute("data-pointer-open")).toBe(false);
+    expect(document.activeElement).toBe(document.querySelector('[href="/"]'));
+  });
+
   it("dispatches menu:open and menu:close on the document", () => {
     const events = [];
     const record = (event) => events.push(event.type);
@@ -208,6 +229,16 @@ describe("menu motion", () => {
       new PageTransitionEvent("pageshow", { persisted: true }),
     );
     expect(dialog().open).toBe(false);
+  });
+
+  it("leaves no menu link focused when the page comes back from the cache", () => {
+    dialog().close();
+    const work = document.querySelector('[href="/work"]');
+    work.focus();
+    window.dispatchEvent(
+      new PageTransitionEvent("pageshow", { persisted: true }),
+    );
+    expect(document.activeElement).not.toBe(work);
   });
 
   it("leaves modified clicks and external links to the browser", () => {
