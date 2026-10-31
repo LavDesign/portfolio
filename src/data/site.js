@@ -27,7 +27,7 @@ export const social = [
   { label: "Email", href: `mailto:${email}` },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/luis-aguilar-33b83027/",
+    href: "https://www.linkedin.com/in/luis-aguilar-vargas/",
   },
   { label: "GitHub", href: "https://github.com/LavDesign" },
 ];
