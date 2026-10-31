@@ -112,6 +112,17 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 </dialog>
 
 <style>
+  /* Opened by tap or click (menu.js): the first link still takes focus, without the ring or
+     the focus color WebKit would show for it. Any key press brings both back. */
+  dialog[data-pointer-open] [data-menu-link]:focus-visible {
+    outline: none;
+  }
+
+  dialog[data-pointer-open]
+    [data-menu-link]:not([aria-current]):focus-visible:not(:hover) {
+    color: var(--color-line-strong);
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     dialog[open] .menu-item {
       animation: menu-item-in 300ms ease-out both;

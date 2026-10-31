@@ -1,4 +1,6 @@
 const SCROLL_LOCK_CLASS = "overflow-hidden";
+// Set on the dialog while it was opened by tap or click and no key has been pressed since.
+const POINTER_OPEN_ATTR = "data-pointer-open";
 
 // The menu panel's two states and how it moves between them (subtle: 8px and a fade).
 const SHOWN = { opacity: 1, transform: "translateY(0px)" };
@@ -79,6 +81,10 @@ export function initMenu(doc = document) {
     opener = event?.currentTarget ?? opener;
     closing = false;
     run += 1;
+    // A tap or click reports detail > 0; Enter or Space on the button reports 0. WebKit shows
+    // the focus ring on the scripted focus below even after a tap, so a pointer open hides it
+    // (MenuOverlay.astro) until the first key press.
+    dialog.toggleAttribute(POINTER_OPEN_ATTR, (event?.detail ?? 0) > 0);
     if (!dialog.open) dialog.showModal();
     setExpanded(true);
     doc.documentElement.classList.add(SCROLL_LOCK_CLASS);
@@ -119,6 +125,7 @@ export function initMenu(doc = document) {
     closing = false;
     run += 1;
     if (!wasClosing) doc.dispatchEvent(new CustomEvent("menu:closing"));
+    dialog.removeAttribute(POINTER_OPEN_ATTR);
     setExpanded(false);
     doc.documentElement.classList.remove(SCROLL_LOCK_CLASS);
     doc.dispatchEvent(new CustomEvent("menu:close"));
@@ -127,9 +134,12 @@ export function initMenu(doc = document) {
   };
 
   // Menu links leave the menu open on purpose. If the browser later restores this page from
-  // its back/forward cache, it comes back closed.
+  // its back/forward cache, it comes back closed, and the link tapped to leave keeps no focus.
   const onPageShow = (event) => {
-    if (event.persisted && dialog.open) dialog.close();
+    if (!event.persisted) return;
+    if (dialog.open) dialog.close();
+    if (doc.activeElement?.matches("[data-menu-link]"))
+      doc.activeElement.blur();
   };
 
   const onCloseButton = () => close();
@@ -137,6 +147,8 @@ export function initMenu(doc = document) {
   // Escape animates too. The keydown is handled first so repeated Escapes are never turned
   // into an instant close; "cancel" covers other close requests (Android's back gesture).
   const onKeydown = (event) => {
+    // Any key means the keyboard is in use: the focus ring shows again.
+    dialog.removeAttribute(POINTER_OPEN_ATTR);
     if (event.key === "Escape") {
       event.preventDefault();
       close();
