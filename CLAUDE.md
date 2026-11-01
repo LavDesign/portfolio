@@ -48,6 +48,7 @@ Astro 7 (static) · Tailwind CSS v4 (tokens in src/styles/global.css @theme) · 
 
 Done: M1–M6e (setup, shell, hero, horizontal chapters, Work and case template, About and Contact, polish, identity, captures, menu motion, chapter indicator), real contact form (Formspree, tested locally) with an animated success dialog (logo use approved by Luis), identity: Luis Aguilar Vargas named as the person behind LAV Design (hero eyebrow, About, rail, titles, descriptions, Person JSON-LD; name data in src/data/site.js), M7 closed: live on Vercel at https://lavdesign.vercel.app (PUBLIC_FORMSPREE_ID set there); site URL in astro.config.mjs, canonicals, absolute og:url and og:image, Person JSON-LD url, sitemap (no 404), generated robots.txt, curly quotes in visible copy, README and LICENSE (all rights reserved); Lighthouse 12.8.2 and axe-core 4.14 measured on the live URL (results in README Quality); main protected by the "Protect main" ruleset (PR required, verify check, no force push or deletion, no bypass).
 Case study content: all 4 cases ready.
-Pending: re-export the PES capture without sample data, a new GCE capture taken in an incognito window, and a real Formspree test in production.
+PES capture re-exported from the revised Figma design (no sample contact data in its footer).
+Pending: a new GCE capture taken in an incognito window, and a real Formspree test in production.
 Next: to be decided by Luis.
 Update this section in every milestone PR.
