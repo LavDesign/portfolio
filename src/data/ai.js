@@ -7,7 +7,7 @@ export const ai = {
     },
     {
       title: "AI builds and explores.",
-      text: "It accelerates ideation and implementation. On Vetegram, Claude Code wrote the code from my decisions.",
+      text: "It accelerates ideation and implementation. On Vetegram, an AI coding agent wrote the code from my decisions.",
     },
     {
       title: "I review everything.",

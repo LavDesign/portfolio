@@ -120,7 +120,7 @@ public/               # favicons and og.png
 
 ## Workflow
 
-AI-assisted: product, design and technical decisions and code review by me; implementation with Claude Code.
+AI-assisted: product, design and technical decisions and code review by me; implementation by an AI coding agent.
 
 Work was split into milestones, one branch and one pull request each, with a description, verification steps and results. CI (format check, lint, `astro check`, tests and build) must pass before merging into `main`, and I review every change in the browser before it lands.
 
